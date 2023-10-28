@@ -1,7 +1,7 @@
 public class Time {
     private String nome;
-    private String logo = "";
-    private String estadio = "";
+    private String code = "";
+    private Estadio estadio;
     
     public Time() {
         setNome("No Name");
@@ -11,7 +11,7 @@ public class Time {
         setNome(nome);
     }
     
-    public Time(String nome, String estadio) {
+    public Time(String nome, Estadio estadio) {
         setNome(nome);
         setEstadio(estadio);
     }
@@ -26,23 +26,37 @@ public class Time {
         }
     }
     
-    public String getLogo() {
-        return this.logo;
+    public String getCode() {
+        return this.code;
     }
     
-    public void setLogo(String logo) {
-        if (logo != null) {
-            this.logo = logo;
+    public void setCode(String code) {
+        if (code != null) {
+            this.code = code;
         }
     }
     
-    public String getEstadio(String estadio) {
+    public Estadio getEstadio() {
         return this.estadio;
     }
     
-    public void setEstadio(String estadio) {
-        if (estadio != null) {
+    public void setEstadio(Estadio estadio) {
+        if (estadio.getNome() != null) {
             this.estadio = estadio;  
         }
+    }
+    
+    @Override
+    public String toString() {
+        String str = "";
+        
+        str += "Nome: "+nome;
+        str += "\nCódigo: "+code;
+        str += "\n-";
+        str += "\nInformações do Estádio:\n";
+        str += estadio.toString();
+        str += "\n-\n";
+        
+        return str;
     }
 }
