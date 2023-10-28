@@ -36,6 +36,10 @@ public class Time {
         }
     }
     
+    public String getEstadio(String estadio) {
+        return this.estadio;
+    }
+    
     public void setEstadio(String estadio) {
         if (estadio != null) {
             this.estadio = estadio;  
