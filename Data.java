@@ -223,5 +223,17 @@ public class Data {
         return str;
     }
     
-    
+    public String getTipoAno() {
+        switch (this.ano%4) {
+            case 0:
+                return "Euro";
+            case 1:
+                return "Pre World Cup";
+            case 2:
+                return "World Cup";
+            case 3:
+                return "Pre Euro";
+        }
+        return "";
+    }
 }
