@@ -36,6 +36,14 @@ public class Jogo {
         return this.placarB;
     }
     
+    public String getFaseJogo() {
+        return this.faseJogo;
+    }
+    
+    public Data getData() {
+        return this.data;
+    }
+    
     public void passarMinuto()  {
         int numAleatorio = rand.nextInt(72);
         
@@ -107,6 +115,8 @@ public class Jogo {
                 faseJogo = "Finalizado";
             }
         }
+        
+        System.out.println(toString());
         
     }
     

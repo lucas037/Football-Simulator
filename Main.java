@@ -2,6 +2,10 @@ public class Main {
     public static void main(String args[]) {
         //System.out.println("Hello World!");
         
+        // AJEITAR PASSAR DOS DIAS (SEGUNDA > TERÇA > QUARTA)
+        
+        Tempo tmp = new Tempo(6, 1, 2023, 23, 58);
+        
         Estadio[] estadios = new Estadio[5];
         estadios[0] = new Estadio("Maracanã", 60000);
         estadios[1] = new Estadio("Morumbi", 60000);
@@ -17,20 +21,21 @@ public class Main {
         times[4] = new Time("Corinthians", estadios[3]);
         times[5] = new Time("Santos", estadios[4]);
         
-        Jogo jogoA = new Jogo(times[5], times[1], new Data(7, 1, 2023, 20, 0));
+        Jogo jogoA = new Jogo(times[0], times[3], new Data(7, 1, 2023, 20, 0));
+        Jogo jogoB = new Jogo(times[2], times[4], new Data(7, 1, 2023, 20, 30));
+        Jogo jogoC = new Jogo(times[1], times[5], new Data(7, 1, 2023, 20, 30));
         
-        System.out.println(jogoA.toString());
-        int golsAAntigo = 0;
-        int golsBAntigo = 0;
         
-        for (int i = 0; i < 120; i++) {
-            golsAAntigo = jogoA.getPlacarA();
-            golsBAntigo = jogoA.getPlacarB();
-            
-            jogoA.passarMinuto();
-            
-            if (golsAAntigo != jogoA.getPlacarA() || golsBAntigo != jogoA.getPlacarB())
-                System.out.println(jogoA.toString());
+        
+        //System.out.println(jogoA.toString());
+        //System.out.println(jogoB.toString());
+        
+        tmp.addJogo(jogoB);
+        tmp.addJogo(jogoA);
+        tmp.addJogo(jogoC);
+        
+        for (int i = 0; i < 3000; i++) {
+            tmp.passarMinuto();
         }
     }   
 }

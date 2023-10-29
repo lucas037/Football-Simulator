@@ -263,6 +263,30 @@ public class Data {
             hora = 0;
             dia++;
             
+            switch (diaSemana) {
+                case "Domingo":
+                    diaSemana = "Segunda";
+                    break;
+                case "Segunda":
+                    diaSemana = "Terça";
+                    break;
+                case "Terça":
+                    diaSemana = "Quarta";
+                    break;
+                case "Quarta":
+                    diaSemana = "Quinta";
+                    break;
+                case "Quinta":
+                    diaSemana = "Sexta";
+                    break;
+                case "Sexta":
+                    diaSemana = "Sábado";
+                    break;
+                case "Sábado":
+                    diaSemana = "Domingo";
+                    break;
+            }
+            
             boolean diaLimite = false;
             if (mes == 2 && dia > 28) {
                 if (getTipoAno().equals("Euro")) {
