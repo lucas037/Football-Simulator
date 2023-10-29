@@ -24,18 +24,19 @@ public class Main {
         Jogo jogoA = new Jogo(times[0], times[3], new Data(7, 1, 2023, 20, 0));
         Jogo jogoB = new Jogo(times[2], times[4], new Data(7, 1, 2023, 20, 30));
         Jogo jogoC = new Jogo(times[1], times[5], new Data(7, 1, 2023, 20, 30));
+        Jogo jogoD = new Jogo(times[1], times[5], new Data(8, 1, 2023, 20, 30));
         
+        Jogo[] jogosAno = new Jogo[100];
+        int quantJogos = 0;
         
-        
-        //System.out.println(jogoA.toString());
-        //System.out.println(jogoB.toString());
-        
-        tmp.addJogo(jogoB);
         tmp.addJogo(jogoA);
+        tmp.addJogo(jogoB);
         tmp.addJogo(jogoC);
+        tmp.addJogo(jogoD);
         
-        for (int i = 0; i < 3000; i++) {
-            tmp.passarMinuto();
+        
+        for (int i = 0; i < 2; i++) {
+            tmp.passarDia();
         }
     }   
 }

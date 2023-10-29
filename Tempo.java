@@ -1,6 +1,9 @@
 public class Tempo extends Data {
     Jogo[] jogosHoje = new Jogo[100];
     int numeroDeJogos = 0;
+    Jogo[] jogosAno = new Jogo[100];
+    int numeroDeJogosAno = 0;
+    int limiteJogosAno = 100;
             
     public Tempo() {
         super(); // invoca o construtor da classe pai "Data"
@@ -25,7 +28,16 @@ public class Tempo extends Data {
         super.passarMinuto();
         
         if (getHora().equals("00:00")) {
-            System.out.println("");
+            removerJogosHoje();
+            
+            for (int i = 0; i < numeroDeJogosAno; i++) {
+                Data dt = jogosAno[i].getData();
+                
+                if (getData().equals(dt.getData())) {
+                    addJogoHoje(jogosAno[i]);
+                }
+            }
+                
             // Aqui faz-se, através do banco de dados, tempo obter todos os eventos do dia (jogos e outros)
         }
         
@@ -53,9 +65,17 @@ public class Tempo extends Data {
         }
     }
     
-    
-    
     public void addJogo(Jogo jogo) {
+        if (numeroDeJogosAno < limiteJogosAno) {
+            jogosAno[numeroDeJogosAno] = jogo;
+            numeroDeJogosAno++;
+        }
+        else {
+            System.out.println("Limite de Jogos em um Dia é 100.");
+        }
+    }
+    
+    public void addJogoHoje(Jogo jogo) {
         if (numeroDeJogos < 100) {
             jogosHoje[numeroDeJogos] = jogo;
             numeroDeJogos++;
@@ -65,11 +85,11 @@ public class Tempo extends Data {
         }
     }
     
-    public void removerJogos() {
+    public void removerJogosHoje() {
         numeroDeJogos = 0;
     }
     
-    public void exibirJogos() {
+    public void exibirJogosHoje() {
         for (int i = 0; i < numeroDeJogos; i++) {
             System.out.println(jogosHoje[i].toString());
         }
