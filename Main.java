@@ -25,6 +25,7 @@ public class Main {
         Jogo jogoB = new Jogo(times[2], times[4], new Data(7, 1, 2023, 20, 30));
         Jogo jogoC = new Jogo(times[1], times[5], new Data(7, 1, 2023, 20, 30));
         Jogo jogoD = new Jogo(times[1], times[5], new Data(8, 1, 2023, 20, 30));
+        Jogo jogoE = new Jogo(jogoD, new Data(9, 1, 2023, 15, 30));
         
         Jogo[] jogosAno = new Jogo[100];
         int quantJogos = 0;
@@ -33,9 +34,10 @@ public class Main {
         tmp.addJogo(jogoB);
         tmp.addJogo(jogoC);
         tmp.addJogo(jogoD);
+        tmp.addJogo(jogoE);
         
         
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             tmp.passarDia();
         }
     }   
