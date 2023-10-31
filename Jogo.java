@@ -1,11 +1,13 @@
 import java.util.Random;
 
 public class Jogo {
+    private int numJogo;
     private Time timeA;
     private Time timeB;
     private boolean jogoAgregado = false;
     private int agregadoA = 0;
     private int agregadoB = 0;
+    private Time classificado;
     private int penaltiA = 0;
     private int penaltiB = 0;
     private int placarA = 0;
@@ -26,9 +28,27 @@ public class Jogo {
         this.estadio = timeA.getEstadio();
     }
     
+    public Jogo(Time timeA, int agregadoA, Time timeB, int agregadoB, Data data) {
+        this.timeA = timeA;
+        this.timeB = timeB;
+        this.agregadoA = agregadoA;
+        this.agregadoB = agregadoB;
+        this.data = data;
+        this.estadio = timeA.getEstadio();
+    }
+    
     public Jogo(Time timeA, Time timeB, Data data, Estadio estadio) {
         this.timeA = timeA;
         this.timeB = timeB;
+        this.data = data;
+        this.estadio = estadio;
+    }
+    
+    public Jogo(Time timeA, int agregadoA, Time timeB, int agregadoB, Data data, Estadio estadio) {
+        this.timeA = timeA;
+        this.timeB = timeB;
+        this.agregadoA = agregadoA;
+        this.agregadoB = agregadoB;
         this.data = data;
         this.estadio = estadio;
     }
@@ -41,6 +61,14 @@ public class Jogo {
         this.timeB = jogo.getTimeA();
         this.data = data;
         this.estadio = jogo.getTimeB().getEstadio();
+    }
+    
+    public int getNumJogo() {
+        return numJogo;
+    }
+    
+    public void setNumJogo(int num) {
+        this.numJogo = num;
     }
     
     public Time getTimeA() {
@@ -67,8 +95,25 @@ public class Jogo {
         return this.data;
     }
     
+    public Time getClassificado() {
+        return this.classificado;
+    }
+    
+    public void setJogoAgregado() {
+        jogoAgregado = true;
+    }
+    
+    public void encerrarJogo() {
+        if (faseJogo.equals("Finalizado")) {
+            faseJogo = "Encerrado!";
+        }
+        else {
+            System.out.println("Impossível encerrar um confronto ainda não finalizado.");
+        }
+    }
+    
     public void passarMinuto()  {
-        int numAleatorio = rand.nextInt(11472);
+        int numAleatorio = rand.nextInt(72);
         
         if (!faseJogo.equals("Em Breve") && !faseJogo.equals("Intervalo") && !faseJogo.equals("Finalizado")) { // aleatoriamente adiciona gols em tempos de jogo possíveis
             if (numAleatorio == 0) {
@@ -235,14 +280,12 @@ public class Jogo {
                 if (numAleatorio < 8) {
                     penaltiA += 1;
                 }
-                System.out.println(toString());
                 
                 numAleatorio = rand.nextInt(10);
                 
                 if (numAleatorio < 8) {
                     penaltiB += 1;
                 }
-                System.out.println(toString());
             }
             
             if (penaltiA > penaltiB+2 || penaltiB > penaltiA+2) {
@@ -260,7 +303,6 @@ public class Jogo {
                 if (penaltiA > penaltiB+2 || penaltiB > penaltiA + 1) {
                     faseJogo = "Finalizado";
                 }
-                System.out.println(toString());
                 
             }
             
@@ -275,7 +317,6 @@ public class Jogo {
                 if (penaltiA > penaltiB+1 || penaltiB > penaltiA + 1) {
                     faseJogo = "Finalizado";
                 }
-                System.out.println(toString());
                 
             }
             
@@ -290,7 +331,6 @@ public class Jogo {
                 if (penaltiA > penaltiB+1 || penaltiB > penaltiA) {
                     faseJogo = "Finalizado";
                 }
-                System.out.println(toString());
                 
             }
             
@@ -305,7 +345,6 @@ public class Jogo {
                 if (penaltiA > penaltiB || penaltiB > penaltiA + 1) {
                     faseJogo = "Finalizado";
                 }
-                System.out.println(toString());
                 
             }
             
@@ -316,14 +355,12 @@ public class Jogo {
                     if (numAleatorio < 8) {
                         penaltiA += 1;
                     }
-                    System.out.println(toString());
 
                     numAleatorio = rand.nextInt(10);
 
                     if (numAleatorio < 8) {
                         penaltiB += 1;
                     }
-                    System.out.println(toString());
                 }
             }
             
@@ -333,7 +370,24 @@ public class Jogo {
             
         }
         
-        System.out.println(toString());
+        
+        if (faseJogo.equals("Finalizado")) {
+            if (jogoAgregado == true) {
+                if (penaltiA > penaltiB) {
+                    classificado = timeA;
+                }
+                else if (penaltiB > penaltiA) {
+                    classificado = timeB;
+                }
+                else if ((agregadoA+placarA)>(agregadoB+placarB)) {
+                    classificado = timeA;
+                }
+                else if ((agregadoB+placarB)>(agregadoA+placarA)) {
+                    classificado = timeA;
+                }
+            }
+            System.out.println(toString());
+        }
         
     }
     
@@ -390,7 +444,7 @@ public class Jogo {
         str += timeB.getNome();
         
         if (jogoAgregado) {
-            str += "(";
+            str += " (";
             str += agregadoA+placarA;
             str += "x";
             str += agregadoB+placarB;

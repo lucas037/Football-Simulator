@@ -4,6 +4,9 @@ public class Tempo extends Data {
     Jogo[] jogosAno = new Jogo[100];
     int numeroDeJogosAno = 0;
     int limiteJogosAno = 100;
+    Confronto[] confrontos = new Confronto[100];
+    int numeroConfrontos = 0;
+    int limiteConfrontos = 100;
             
     public Tempo() {
         super(); // invoca o construtor da classe pai "Data"
@@ -62,12 +65,33 @@ public class Tempo extends Data {
             else if (!jogosHoje[i].getFaseJogo().equals("Finalizado")) {
                 jogosHoje[i].passarMinuto();
             }
+            
+            else if (jogosHoje[i].getFaseJogo().equals("Finalizado")) {
+                int numJogo = jogosHoje[i].getNumJogo();
+                
+                // caso o jogo que acabou de ser finalizado seja um confronto de casa e fora ou não.
+                for (int j = 0; j < numeroConfrontos; j++) {
+                    if (numJogo == confrontos[j].getNumJogoA()) {
+                        confrontos[j].setJogoB(confrontos[j].getJogoA().getPlacarA(), confrontos[j].getJogoA().getPlacarB());
+                        confrontos[j].setNumJogoB(numeroDeJogosAno);
+                        addJogo(confrontos[j].getJogoB());
+                    }
+                    else if (numJogo == confrontos[j].getNumJogoB()) {
+                        System.out.println("Classificado: "+confrontos[j].getJogoB().getClassificado().getNome());
+                    }
+                }
+                
+                jogosHoje[i].encerrarJogo();
+            }
         }
     }
     
     public void addJogo(Jogo jogo) {
         if (numeroDeJogosAno < limiteJogosAno) {
             jogosAno[numeroDeJogosAno] = jogo;
+            
+            jogosAno[numeroDeJogosAno].setNumJogo(numeroDeJogosAno);
+            
             numeroDeJogosAno++;
         }
         else {
@@ -82,6 +106,20 @@ public class Tempo extends Data {
         }
         else {
             System.out.println("Limite de Jogos em um Dia é 100.");
+        }
+    }
+    
+    public void addConfronto(Confronto confronto) {
+        if (numeroConfrontos < limiteConfrontos) {
+            confrontos[numeroConfrontos] = confronto;
+            confrontos[numeroConfrontos].setNumJogoA(numeroDeJogosAno);
+            
+            addJogo(confronto.getJogoA());
+            
+            numeroConfrontos++;
+        }
+        else {
+            System.out.println("Limite de Confrontos em um Dia é 100.");
         }
     }
     
