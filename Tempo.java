@@ -1,12 +1,12 @@
 public class Tempo extends Data {
-    Jogo[] jogosHoje = new Jogo[100];
-    int numeroDeJogos = 0;
-    Jogo[] jogosAno = new Jogo[100];
-    int numeroDeJogosAno = 0;
-    int limiteJogosAno = 100;
-    Confronto[] confrontos = new Confronto[100];
-    int numeroConfrontos = 0;
-    int limiteConfrontos = 100;
+    private Jogo[] jogosHoje = new Jogo[100];
+    private int numeroDeJogos = 0;
+    private Jogo[] jogosAno = new Jogo[100];
+    private int numeroDeJogosAno = 0;
+    private int limiteJogosAno = 100;
+    private Confronto[] confrontos = new Confronto[100];
+    private int numeroConfrontos = 0;
+    private int limiteConfrontos = 100;
             
     public Tempo() {
         super(); // invoca o construtor da classe pai "Data"
@@ -77,7 +77,7 @@ public class Tempo extends Data {
                         addJogo(confrontos[j].getJogoB());
                     }
                     else if (numJogo == confrontos[j].getNumJogoB()) {
-                        System.out.println("Classificado: "+confrontos[j].getJogoB().getClassificado().getNome());
+                        System.out.println(numJogo+": Classificado: "+confrontos[j].getJogoB().getClassificado().getNome());
                     }
                 }
                 
@@ -95,7 +95,20 @@ public class Tempo extends Data {
             numeroDeJogosAno++;
         }
         else {
-            System.out.println("Limite de Jogos em um Dia é 100.");
+            Jogo[] novoVetorJogos = new Jogo[limiteJogosAno*2];
+            
+            for (int i = 0; i < limiteJogosAno; i++) {
+                novoVetorJogos[i] = jogosAno[i];
+                novoVetorJogos[i].toString();
+            }
+            
+            jogosAno = novoVetorJogos;
+            
+            limiteJogosAno = limiteJogosAno * 2;
+            
+            System.out.println("Tamanho do Vetor Jogo Aumentou");
+            
+            addJogo(jogo);
         }
     }
     
@@ -119,7 +132,20 @@ public class Tempo extends Data {
             numeroConfrontos++;
         }
         else {
-            System.out.println("Limite de Confrontos em um Dia é 100.");
+            Confronto[] novoVetorConfrontos = new Confronto[limiteConfrontos*2];
+            
+            for (int i = 0; i < limiteConfrontos; i++) {
+                novoVetorConfrontos[i] = confrontos[i];
+                novoVetorConfrontos[i].toString();
+            }
+            
+            confrontos = novoVetorConfrontos;
+            
+            limiteJogosAno = limiteJogosAno * 2;
+            
+            System.out.println("Tamanho do Vetor Confronto Aumentou");
+            
+            addConfronto(confronto);
         }
     }
     

@@ -25,12 +25,19 @@ public class Main {
         
         Confronto cft = new Confronto(times[3], times[1], new Data(10, 1, 2023, 20, 30), new Data(11, 1, 2023, 20, 30));
         
-        Confronto cftB = new Confronto(times[4], times[6], new Data(10, 1, 2023, 17, 30), new Data(11, 1, 2023, 20, 30));
+        Confronto cftB = new Confronto(times[0], times[6], new Data(10, 1, 2023, 17, 30), new Data(11, 1, 2023, 20, 30));
         
-        tmp.addConfronto(cft);
-        tmp.addConfronto(cftB);
+        Confronto cftC = new Confronto(times[4], times[5], new Data(10, 1, 2023, 17, 30), new Data(12, 2, 2023, 20, 30));
         
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 2; i++) {
+            tmp.addConfronto(cft);
+            tmp.addConfronto(cftB);
+            tmp.addConfronto(cftC);
+        }
+        
+        
+        
+        for (int i = 0; i < 60; i++) {
             tmp.passarDia();
         }
     }   

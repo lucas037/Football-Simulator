@@ -383,7 +383,7 @@ public class Jogo {
                     classificado = timeA;
                 }
                 else if ((agregadoB+placarB)>(agregadoA+placarA)) {
-                    classificado = timeA;
+                    classificado = timeB;
                 }
             }
             System.out.println(toString());
