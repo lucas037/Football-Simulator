@@ -1,10 +1,10 @@
 public class Tempo extends Data {
+    private Jogo[] jogos = new Jogo[100];
+    private int numeroJogos = 0;
+    private int limiteJogos = 100;
     private Jogo[] jogosHoje = new Jogo[100];
-    private int numeroDeJogos = 0;
+    private int numeroJogosDia = 0;
     private int limiteJogosDia = 100;
-    private Jogo[] jogosAno = new Jogo[100];
-    private int numeroDeJogosAno = 0;
-    private int limiteJogosAno = 100;
     private Confronto[] confrontos = new Confronto[100];
     private int numeroConfrontos = 0;
     private int limiteConfrontos = 100;
@@ -34,18 +34,18 @@ public class Tempo extends Data {
         if (getHora().equals("00:00")) {
             removerJogosHoje();
             
-            for (int i = 0; i < numeroDeJogosAno; i++) {
-                Data dt = jogosAno[i].getData();
+            for (int i = 0; i < numeroJogos; i++) {
+                Data dt = jogos[i].getData();
                 
                 if (getData().equals(dt.getData())) {
-                    addJogoHoje(jogosAno[i]);
+                    addJogoHoje(jogos[i]);
                 }
             }
                 
             // Aqui faz-se, através do banco de dados, tempo obter todos os eventos do dia (jogos e outros)
         }
         
-        for (int i = 0; i < numeroDeJogos; i++) {
+        for (int i = 0; i < numeroJogosDia; i++) {
             if (jogosHoje[i].getFaseJogo().equals("Em Breve")) {
                 Data dt = jogosHoje[i].getData();
                 boolean aux = true;
@@ -74,7 +74,7 @@ public class Tempo extends Data {
                 for (int j = 0; j < numeroConfrontos; j++) {
                     if (numJogo == confrontos[j].getNumJogoA()) {
                         confrontos[j].setJogoB(confrontos[j].getJogoA().getPlacarA(), confrontos[j].getJogoA().getPlacarB());
-                        confrontos[j].setNumJogoB(numeroDeJogosAno);
+                        confrontos[j].setNumJogoB(numeroJogos);
                         addJogo(confrontos[j].getJogoB());
                     }
                     else if (numJogo == confrontos[j].getNumJogoB()) {
@@ -88,24 +88,24 @@ public class Tempo extends Data {
     }
     
     public void addJogo(Jogo jogo) {
-        if (numeroDeJogosAno < limiteJogosAno) {
-            jogosAno[numeroDeJogosAno] = jogo;
+        if (numeroJogos < limiteJogos) {
+            jogos[numeroJogos] = jogo;
             
-            jogosAno[numeroDeJogosAno].setNumJogo(numeroDeJogosAno);
+            jogos[numeroJogos].setNumJogo(numeroJogos);
             
-            numeroDeJogosAno++;
+            numeroJogos++;
         }
         else {
-            Jogo[] novoVetorJogos = new Jogo[limiteJogosAno*2];
+            Jogo[] novoVetorJogos = new Jogo[limiteJogos*2];
             
-            for (int i = 0; i < limiteJogosAno; i++) {
-                novoVetorJogos[i] = jogosAno[i];
+            for (int i = 0; i < limiteJogos; i++) {
+                novoVetorJogos[i] = jogos[i];
                 novoVetorJogos[i].toString();
             }
             
-            jogosAno = novoVetorJogos;
+            jogos = novoVetorJogos;
             
-            limiteJogosAno = limiteJogosAno * 2;
+            limiteJogos = limiteJogos * 2;
             
             System.out.println("Tamanho do Vetor Jogo Aumentou");
             
@@ -114,10 +114,10 @@ public class Tempo extends Data {
     }
     
     public void addJogoHoje(Jogo jogo) {
-        if (numeroDeJogos < limiteJogosDia) {
-            jogosHoje[numeroDeJogos] = jogo;
+        if (numeroJogosDia < limiteJogosDia) {
+            jogosHoje[numeroJogosDia] = jogo;
             
-            numeroDeJogos++;
+            numeroJogosDia++;
         }
         else {
             Jogo[] novoVetorJogos = new Jogo[limiteJogosDia*2];
@@ -164,8 +164,8 @@ public class Tempo extends Data {
     }
     
     public void exibirJogos() {
-        for (int i = 0; i < numeroDeJogosAno; i++) {
-            System.out.print(jogosAno[i].toString());
+        for (int i = 0; i < numeroJogos; i++) {
+            System.out.print(jogos[i].toString());
         }
     }
     
@@ -177,6 +177,6 @@ public class Tempo extends Data {
     }
     
     public void removerJogosHoje() {
-        numeroDeJogos = 0;
+        numeroJogosDia = 0;
     }
 }
