@@ -2,8 +2,8 @@ import java.util.Random;
 
 public class Jogo {
     private int numJogo = -2;
-    private Time timeA;
-    private Time timeB;
+    private final Time timeA;
+    private final Time timeB;
     private boolean jogoAgregado = false;
     private int agregadoA = 0;
     private int agregadoB = 0;
@@ -16,7 +16,7 @@ public class Jogo {
     private int tempoAcrescimo = 0;
     private int tempoIntervalo = 0;
     private String faseJogo = "Em Breve";
-    private Estadio estadio;
+    private final Estadio estadio;
     private Data data;
     private String gols = "";
     Random rand = new Random();

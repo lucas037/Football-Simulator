@@ -1,7 +1,7 @@
 public class Confronto {
     String tipo = "Jogo Único";
-    private Time timeA;
-    private Time timeB;
+    private final Time timeA;
+    private final Time timeB;
     private Estadio estadioA;
     private Estadio estadioB;
     Data dataPartidaA;
