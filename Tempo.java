@@ -69,17 +69,16 @@ public class Tempo extends Data {
             
             else if (jogosHoje[i].getFaseJogo().equals("Finalizado")) {
                 int numJogo = jogosHoje[i].getNumJogo();
+                int numConfronto = jogos[numJogo].getNumConfronto();
                 
-                // caso o jogo que acabou de ser finalizado seja um confronto de casa e fora ou não.
-                for (int j = 0; j < numeroConfrontos; j++) {
-                    if (numJogo == confrontos[j].getNumJogoA()) {
-                        confrontos[j].setJogoB(confrontos[j].getJogoA().getPlacarA(), confrontos[j].getJogoA().getPlacarB());
-                        confrontos[j].setNumJogoB(numeroJogos);
-                        addJogo(confrontos[j].getJogoB());
-                    }
-                    else if (numJogo == confrontos[j].getNumJogoB()) {
-                        System.out.println(numJogo+": Classificado: "+confrontos[j].getJogoB().getClassificado().getNome());
-                    }
+                if (numJogo == confrontos[numConfronto].getNumJogoA()) { // testa se o numero do jogo é igual ao numero de primeiro jogo do confronto
+                    confrontos[numConfronto].setJogoB(confrontos[numConfronto].getJogoA().getPlacarA(), confrontos[numConfronto].getJogoA().getPlacarB());
+                    confrontos[numConfronto].setNumJogoB(numeroJogos); // seta o numero do jogo
+                    addJogo(confrontos[numConfronto].getJogoB()); // adiciona a lista de jogos
+                }
+                else if (numJogo == confrontos[numConfronto].getNumJogoB()) {
+                    System.out.println(numJogo+": Classificado: "+confrontos[numConfronto].getJogoB().getClassificado().getNome());
+                    
                 }
                 
                 jogosHoje[i].encerrarJogo();
@@ -140,6 +139,9 @@ public class Tempo extends Data {
     public void addConfronto(Confronto confronto) {
         if (numeroConfrontos < limiteConfrontos) {
             confrontos[numeroConfrontos] = confronto;
+            
+            confronto.setNumConfrontoJogoA(numeroConfrontos);
+            confronto.setNumJogoA(numeroJogos);
             
             addJogo(confronto.getJogoA());
             

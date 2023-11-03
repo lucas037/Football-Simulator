@@ -39,7 +39,7 @@ public class Main {
         Data dl = new Data(17, 1, 2023, 17, 30);
         Data dm = new Data(18, 1, 2023, 17, 30);
            
-        Data[] dtt = {dj, dl, dj, dl, dk, dl, dk, dm, dk, dm};
+        Data[] dtt = {dj, dl, dj, dl, dj, dl, dk, dm, dk, dm};
         Fase fs = new Fase("Oitavas", "Mata-Mata", times, 10, dtt);
         tmp = fs.sorteio(tmp);
         

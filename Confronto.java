@@ -76,4 +76,21 @@ public class Confronto {
         this.numJogoB = num;
     }
     
+    public void setNumConfrontoJogoA(int num) {
+        jogoA.setNumConfronto(num);
+    }
+    
+    public void setNumConfrontoJogoB() {
+        jogoB.setNumConfronto(jogoA.getNumConfronto());
+    }
+    
+    public void exibirConfronto() {
+        System.out.println(jogoA.toString());
+        
+        if (jogoB != null)
+            System.out.println(jogoB.toString());
+        else
+            System.out.println("Segundo Jogo ainda não definido.");
+    }
+    
 }

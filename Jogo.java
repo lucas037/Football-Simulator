@@ -5,6 +5,7 @@ public class Jogo {
     private final Time timeA;
     private final Time timeB;
     private boolean jogoAgregado = false;
+    private int numConfronto;
     private int agregadoA = 0;
     private int agregadoB = 0;
     private Time classificado;
@@ -101,6 +102,16 @@ public class Jogo {
     
     public void setJogoAgregado() {
         jogoAgregado = true;
+    }
+    
+    public int getNumConfronto() {
+        return this.numConfronto;
+    }
+    
+    public void setNumConfronto(int num) {
+        if (num >= 0) {
+            this.numConfronto = num;
+        }
     }
     
     public void encerrarJogo() {
