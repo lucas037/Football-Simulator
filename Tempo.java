@@ -1,6 +1,7 @@
 public class Tempo extends Data {
     private Jogo[] jogosHoje = new Jogo[100];
     private int numeroDeJogos = 0;
+    private int limiteJogosDia = 100;
     private Jogo[] jogosAno = new Jogo[100];
     private int numeroDeJogosAno = 0;
     private int limiteJogosAno = 100;
@@ -113,19 +114,32 @@ public class Tempo extends Data {
     }
     
     public void addJogoHoje(Jogo jogo) {
-        if (numeroDeJogos < 100) {
+        if (numeroDeJogos < limiteJogosDia) {
             jogosHoje[numeroDeJogos] = jogo;
+            
             numeroDeJogos++;
         }
         else {
-            System.out.println("Limite de Jogos em um Dia é 100.");
+            Jogo[] novoVetorJogos = new Jogo[limiteJogosDia*2];
+            
+            for (int i = 0; i < limiteJogosDia; i++) {
+                novoVetorJogos[i] = jogosHoje[i];
+                novoVetorJogos[i].toString();
+            }
+            
+            jogosHoje = novoVetorJogos;
+            
+            limiteJogosDia = limiteJogosDia * 2;
+            
+            System.out.println("Tamanho do Vetor Jogo Aumentou");
+            
+            addJogoHoje(jogo);
         }
     }
     
     public void addConfronto(Confronto confronto) {
         if (numeroConfrontos < limiteConfrontos) {
             confrontos[numeroConfrontos] = confronto;
-            confrontos[numeroConfrontos].setNumJogoA(numeroDeJogosAno);
             
             addJogo(confronto.getJogoA());
             
@@ -141,21 +155,28 @@ public class Tempo extends Data {
             
             confrontos = novoVetorConfrontos;
             
-            limiteJogosAno = limiteJogosAno * 2;
-            
-            System.out.println("Tamanho do Vetor Confronto Aumentou");
+            limiteConfrontos = limiteConfrontos * 2;
             
             addConfronto(confronto);
+            
+            
+        }
+    }
+    
+    public void exibirJogos() {
+        for (int i = 0; i < numeroDeJogosAno; i++) {
+            System.out.print(jogosAno[i].toString());
+        }
+    }
+    
+    public void exibirConfrontos() {
+        for (int i = 0; i < numeroConfrontos; i++) {
+            System.out.print(confrontos[i].getJogoA().toString());
+            System.out.println(confrontos[i].getJogoB().toString());
         }
     }
     
     public void removerJogosHoje() {
         numeroDeJogos = 0;
-    }
-    
-    public void exibirJogosHoje() {
-        for (int i = 0; i < numeroDeJogos; i++) {
-            System.out.println(jogosHoje[i].toString());
-        }
     }
 }

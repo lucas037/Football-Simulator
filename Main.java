@@ -23,22 +23,29 @@ public class Main {
         times[5] = new Time("Santos", estadios[4]);
         times[6] = new Time("Internacional", estadios[5]);
         
-        Confronto cft = new Confronto(times[3], times[1], new Data(10, 1, 2023, 20, 30), new Data(11, 1, 2023, 20, 30));
+        Confronto cft = new Confronto(times[3], times[1], new Data(10, 1, 2023, 20, 30), new Data(15, 1, 2023, 20, 30));
         
         Confronto cftB = new Confronto(times[0], times[6], new Data(10, 1, 2023, 17, 30), new Data(11, 1, 2023, 20, 30));
         
         Confronto cftC = new Confronto(times[4], times[5], new Data(10, 1, 2023, 17, 30), new Data(12, 2, 2023, 20, 30));
         
-        for (int i = 0; i < 2; i++) {
+        Confronto cftD = new Confronto(times[2], times[6], new Data(10, 1, 2023, 17, 30), new Data(12, 2, 2023, 20, 30));
+        
+        for (int i = 0; i < 150; i++) {
+            cft = new Confronto(times[3], times[1], new Data(10, 1, 2023, 20, 30), new Data(11, 1, 2023, 20, 30));
+        
             tmp.addConfronto(cft);
-            tmp.addConfronto(cftB);
-            tmp.addConfronto(cftC);
         }
         
         
         
-        for (int i = 0; i < 60; i++) {
+        for (int i = 0; i < 15; i++) {
             tmp.passarDia();
         }
+        
+        System.out.println("=====");
+        tmp.exibirConfrontos();
+        System.out.println("===");
+        tmp.exibirJogos();
     }   
 }

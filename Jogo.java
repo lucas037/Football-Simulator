@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class Jogo {
-    private int numJogo;
+    private int numJogo = -2;
     private Time timeA;
     private Time timeB;
     private boolean jogoAgregado = false;
@@ -115,7 +115,7 @@ public class Jogo {
     public void passarMinuto()  {
         int numAleatorio = rand.nextInt(72);
         
-        if (!faseJogo.equals("Em Breve") && !faseJogo.equals("Intervalo") && !faseJogo.equals("Finalizado")) { // aleatoriamente adiciona gols em tempos de jogo possíveis
+        if (!faseJogo.equals("Em Breve") && !faseJogo.equals("Intervalo") && !faseJogo.equals("Segundo Intervalo") && !faseJogo.equals("Terceiro Intervalo") && !faseJogo.equals("Quarto Intervalo") && !faseJogo.equals("Finalizado") && !faseJogo.equals("Encerrado!")) { // aleatoriamente adiciona gols em tempos de jogo possíveis
             if (numAleatorio == 0) {
                 placarA++;
             }
@@ -398,7 +398,7 @@ public class Jogo {
             str += "Intervalo ";
         }
         
-        else if (!faseJogo.equals("Finalizado") && !faseJogo.equals("Em Breve") && !faseJogo.equals("Penaltis")) {
+        else if (!faseJogo.equals("Encerrado!") && !faseJogo.equals("Finalizado") && !faseJogo.equals("Em Breve") && !faseJogo.equals("Penaltis")) {
             if (tempoAcrescimo != 0 && tempo != 45 && tempo != 90) {
                 if (tempo > 120) {
                     str += "120+";
@@ -465,6 +465,8 @@ public class Jogo {
         if (!gols.equals("")) {
             str += gols+"\n";
         }
+        
+        str += numJogo+"\n";
         
         return str;
     }
