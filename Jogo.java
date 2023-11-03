@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class Jogo {
-    private int numJogo = -2;
+    private int numJogo = -377;
     private final Time timeA;
     private final Time timeB;
     private boolean jogoAgregado = false;
@@ -386,7 +386,6 @@ public class Jogo {
                     classificado = timeB;
                 }
             }
-            System.out.println(toString());
         }
         
     }

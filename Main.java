@@ -6,15 +6,17 @@ public class Main {
         
         Tempo tmp = new Tempo(6, 1, 2023, 20, 58);
         
-        Estadio[] estadios = new Estadio[6];
+        Estadio[] estadios = new Estadio[8];
         estadios[0] = new Estadio("Maracanã", 60000);
         estadios[1] = new Estadio("Morumbi", 60000);
         estadios[2] = new Estadio("Allianz Parque", 35000);
         estadios[3] = new Estadio("Neo Quimica Arena", 40000);
         estadios[4] = new Estadio("Vila Belmiro", 20000);
         estadios[5] = new Estadio("Beira-Rio", 30000);
+        estadios[6] = new Estadio("Arena do Grêmio", 30000);
+        estadios[7] = new Estadio("Mineirão", 30000);
         
-        Time[] times = new Time[7];
+        Time[] times = new Time[10];
         times[0] = new Time("Flamengo", estadios[0]);
         times[1] = new Time("Fluminense", estadios[0]);
         times[2] = new Time("São Paulo", estadios[1]);
@@ -22,26 +24,30 @@ public class Main {
         times[4] = new Time("Corinthians", estadios[3]);
         times[5] = new Time("Santos", estadios[4]);
         times[6] = new Time("Internacional", estadios[5]);
+        times[7] = new Time("Grêmio", estadios[6]);
+        times[8] = new Time("Cruzeiro", estadios[7]);
+        times[9] = new Time("Atlético Mineiro", estadios[7]);
         
-        Confronto cft = new Confronto(times[3], times[1], new Data(10, 1, 2023, 20, 30), new Data(15, 1, 2023, 20, 30));
         
-        Confronto cftB = new Confronto(times[0], times[6], new Data(10, 1, 2023, 17, 30), new Data(11, 1, 2023, 20, 30));
-        
-        Confronto cftC = new Confronto(times[4], times[5], new Data(10, 1, 2023, 17, 30), new Data(12, 2, 2023, 20, 30));
-        
-        Confronto cftD = new Confronto(times[2], times[6], new Data(10, 1, 2023, 17, 30), new Data(12, 2, 2023, 20, 30));
         
         for (int i = 0; i < 1; i++) {
-            tmp.addConfronto(cft);
-            tmp.addConfronto(cftB);
-            tmp.addConfronto(cftC);
-            tmp.addConfronto(cftD);
+            tmp.passarDia();
         }
         
+        Data dj = new Data(9, 1, 2023, 17, 30);
+        Data dk = new Data(10, 1, 2023, 17, 30);
+        Data dl = new Data(17, 1, 2023, 17, 30);
+        Data dm = new Data(18, 1, 2023, 17, 30);
+           
+        Data[] dtt = {dj, dl, dj, dl, dk, dl, dk, dm, dk, dm};
+        Fase fs = new Fase("Oitavas", "Mata-Mata", times, 10, dtt);
+        tmp = fs.sorteio(tmp);
         
         
+        System.out.println("===");
         for (int i = 0; i < 15; i++) {
             tmp.passarDia();
         }
+        tmp.exibirConfrontos();
     }   
 }
