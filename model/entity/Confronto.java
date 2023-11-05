@@ -1,3 +1,5 @@
+package model.entity;
+
 public class Confronto {
     String tipo = "Jogo Único";
     private final Time timeA;

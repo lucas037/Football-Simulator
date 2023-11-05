@@ -1,3 +1,9 @@
+import model.entity.Tempo;
+import model.entity.Info;
+import model.entity.Estadio;
+import model.entity.Time;
+import model.entity.Campeonato;
+
 public class Main {
     public static void main(String args[]) {
         //System.out.println("Hello World!");

@@ -1,3 +1,5 @@
+package model.entity;
+
 public class Estadio {
     private String nome;
     private int capacidade;

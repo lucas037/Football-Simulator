@@ -1,4 +1,7 @@
+package model.entity;
+
 import java.sql.*;
+import model.bo.EstadioBO;
 
 public class Info {
     private Estadio[] estadios;
@@ -12,47 +15,11 @@ public class Info {
     }
     
     private void gerarEstadios() {
-        String url = "jdbc:postgresql://localhost:5432/FS_dados";
-        String usuario = "postgres";
-        String senha = "0517";
+        EstadioBO esBO = new EstadioBO();
         
-        try {
-            Connection connection = DriverManager.getConnection(url, usuario, senha); // estabelece conexao
-
-            int quantEstadios = 0;
-            String query = "SELECT COUNT(*) AS total FROM Estadio";
-            Statement statement = connection.createStatement();
-            ResultSet countResult = statement.executeQuery(query);
-            
-            countResult.next();
-            quantEstadios = countResult.getInt("total");
-            
-            query = "SELECT nome, capacidade FROM Estadio";
-            ResultSet resultSet = statement.executeQuery(query);
-            
-            Estadio[] estadios = new Estadio[quantEstadios+1];
-            estadios[0] = new Estadio("---", 377);
-            
-            int i = 1;
-            while (resultSet.next()) {
-                String nome = resultSet.getString("nome");
-                int capacidade = resultSet.getInt("capacidade");
-
-                Estadio estadio = new Estadio(nome, capacidade);
-                estadios[i] = estadio;
-                i++;
-            }
-            this.estadios = estadios;
-            
-            
-
-            resultSet.close();
-            statement.close();
-            connection.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.estadios = esBO.obter();
+        
+ 
     }
     
     public Estadio[] getEstadios() {

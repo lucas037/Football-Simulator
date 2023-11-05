@@ -1,3 +1,5 @@
+package model.entity;
+
 import java.util.Random;
 
 public class Fase {

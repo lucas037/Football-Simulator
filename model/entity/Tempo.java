@@ -1,3 +1,5 @@
+package model.entity;
+
 public class Tempo extends Data {
     private Jogo[] jogos = new Jogo[100];
     private int numeroJogos = 0;

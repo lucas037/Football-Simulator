@@ -1,3 +1,5 @@
+package model.entity;
+
 public class Time {
     private String nome;
     private String code = "";
