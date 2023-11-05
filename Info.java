@@ -1,3 +1,5 @@
+import java.sql.*;
+
 public class Info {
     private Estadio[] estadios;
     private Time[] times;
@@ -10,19 +12,47 @@ public class Info {
     }
     
     private void gerarEstadios() {
-        Estadio[] estadios = {
-            new Estadio("Arena", 90000),
-            new Estadio("Maracanã", 78838),
-            new Estadio("Morumbi", 66795),
-            new Estadio("Allianz Parque", 43713),
-            new Estadio("Neo Quimica Arena", 49205),
-            new Estadio("Vila Belmiro", 16000),
-            new Estadio("Beira-Rio", 50842),
-            new Estadio("Arena do Grêmio", 55396),
-            new Estadio("Mineirão", 61927)
-        };
+        String url = "jdbc:postgresql://localhost:5432/FS_dados";
+        String usuario = "postgres";
+        String senha = "0517";
         
-        this.estadios = estadios;
+        try {
+            Connection connection = DriverManager.getConnection(url, usuario, senha); // estabelece conexao
+
+            int quantEstadios = 0;
+            String query = "SELECT COUNT(*) AS total FROM Estadio";
+            Statement statement = connection.createStatement();
+            ResultSet countResult = statement.executeQuery(query);
+            
+            countResult.next();
+            quantEstadios = countResult.getInt("total");
+            
+            query = "SELECT nome, capacidade FROM Estadio";
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            Estadio[] estadios = new Estadio[quantEstadios+1];
+            estadios[0] = new Estadio("---", 377);
+            
+            int i = 1;
+            while (resultSet.next()) {
+                String nome = resultSet.getString("nome");
+                int capacidade = resultSet.getInt("capacidade");
+
+                Estadio estadio = new Estadio(nome, capacidade);
+                estadios[i] = estadio;
+                i++;
+            }
+            this.estadios = estadios;
+            
+            
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
     public Estadio[] getEstadios() {
@@ -52,13 +82,13 @@ public class Info {
             new Time("Grêmio", estadios[getNumEstadio("Arena do Grêmio")]),
             new Time("Cruzeiro", estadios[getNumEstadio("Mineirão")]),
             new Time("Atlético Mineiro", estadios[getNumEstadio("Mineirão")]),
-            new Time("Red Bull Bragantino", estadios[getNumEstadio("")]),
+            new Time("Red Bull Bragantino", estadios[getNumEstadio("Nabi Abi Chedid")]),
             new Time("Athletico Paranaense", estadios[getNumEstadio("")]),
             new Time("Coritiba", estadios[getNumEstadio("")]),
             new Time("Fortaleza", estadios[getNumEstadio("")]),
             new Time("Ceará", estadios[getNumEstadio("")]),
             new Time("Bahia", estadios[getNumEstadio("")]),
-            new Time("Vitória", estadios[getNumEstadio("")]),
+            new Time("Vitória", estadios[getNumEstadio("")])
         };
         
         this.times = times;

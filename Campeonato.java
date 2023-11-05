@@ -25,7 +25,7 @@ public class Campeonato {
     
     public void exibirTimes() {
         for (int i = 0; i < times.length; i++) {
-            System.out.println(times[i].getNome());
+            System.out.println(times[i].toString());
         }
     }
 }

@@ -11,10 +11,14 @@ public class Main {
         Time[] times = dados.getTimes();
         Campeonato[] campeonatos = dados.getCampeonatos();
         
-        campeonatos[0].exibirTimes();
+        for (int i = 0; i < times.length; i++) {
+            System.out.println(times[i].toString());
+        }
         
-        //Campeonato cmp = new Campeonato("Copa do Brasil", 8, 3);
+        //campeonatos[0].exibirTimes();
         
         
-    }   
+    }
+        
+        
 }
