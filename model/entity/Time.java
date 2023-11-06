@@ -1,8 +1,8 @@
 package model.entity;
 
 public class Time {
+    private int id;
     private String nome;
-    private String code = "";
     private Estadio estadio;
     
     public Time() {
@@ -18,6 +18,22 @@ public class Time {
         setEstadio(estadio);
     }
     
+    public Time(int id, String nome, Estadio estadio) {
+        setID(id);
+        setNome(nome);
+        setEstadio(estadio);
+    }
+    
+    public int getID() {
+        return this.id;
+    }
+    
+    public void setID(int id) {
+        if (id >= 0) {
+            this.id = id;
+        }
+    }
+    
     public String getNome() {
         return this.nome;
     }
@@ -25,16 +41,6 @@ public class Time {
     public void setNome(String nome) {
         if (nome != null) {
             this.nome = nome;
-        }
-    }
-    
-    public String getCode() {
-        return this.code;
-    }
-    
-    public void setCode(String code) {
-        if (code != null) {
-            this.code = code;
         }
     }
     
@@ -52,11 +58,12 @@ public class Time {
     public String toString() {
         String str = "";
         
-        str += "Nome: "+nome;
-        str += "\nCódigo: "+code;
+        str += "ID: "+id;
+        str += "\nNome: "+nome;
         str += "\n-";
         str += "\nInformações do Estádio:\n";
-        str += estadio.toString();
+        if (estadio != null)
+            str += estadio.toString();
         str += "\n-\n";
         
         return str;

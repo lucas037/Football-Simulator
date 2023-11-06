@@ -2,6 +2,7 @@ package model.entity;
 
 import java.sql.*;
 import model.bo.EstadioBO;
+import model.bo.TimeBO;
 
 public class Info {
     private Estadio[] estadios;
@@ -12,6 +13,12 @@ public class Info {
         gerarEstadios();
         gerarTimes();
         gerarCampeonatos();
+    }
+    
+    public Info(String str) {
+        if (str.equals("Estádio")) {
+            gerarEstadios();
+        }
     }
     
     private void gerarEstadios() {
@@ -37,28 +44,9 @@ public class Info {
     }
     
     private void gerarTimes() {
-        Time[] times = {
-            new Time("Time", estadios[getNumEstadio("")]),
-            new Time("Flamengo", estadios[getNumEstadio("Maracanã")]),
-            new Time("Fluminense", estadios[getNumEstadio("Maracanã")]),
-            new Time("São Paulo", estadios[getNumEstadio("Morumbi")]),
-            new Time("Palmeiras", estadios[getNumEstadio("Allianz Parque")]),
-            new Time("Corinthians", estadios[getNumEstadio("Neo Quimica Arena")]),
-            new Time("Santos", estadios[getNumEstadio("Vila Belmiro")]),
-            new Time("Internacional", estadios[getNumEstadio("Beira-Rio")]),
-            new Time("Grêmio", estadios[getNumEstadio("Arena do Grêmio")]),
-            new Time("Cruzeiro", estadios[getNumEstadio("Mineirão")]),
-            new Time("Atlético Mineiro", estadios[getNumEstadio("Mineirão")]),
-            new Time("Red Bull Bragantino", estadios[getNumEstadio("Nabi Abi Chedid")]),
-            new Time("Athletico Paranaense", estadios[getNumEstadio("")]),
-            new Time("Coritiba", estadios[getNumEstadio("")]),
-            new Time("Fortaleza", estadios[getNumEstadio("")]),
-            new Time("Ceará", estadios[getNumEstadio("")]),
-            new Time("Bahia", estadios[getNumEstadio("")]),
-            new Time("Vitória", estadios[getNumEstadio("")])
-        };
+        TimeBO tmBO = new TimeBO();
         
-        this.times = times;
+        this.times = tmBO.obter();
     }
     
     public Time[] getTimes() {

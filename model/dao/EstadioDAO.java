@@ -31,6 +31,30 @@ public class EstadioDAO extends BaseDAOImp<Estadio> {
         return estadios;
     }
     
+    public Estadio obter(String nome) {
+        Estadio estadio = new Estadio();
+        try {
+            Connection connection = BaseDAOImp.getConnection();
+
+            String query = "SELECT nome, capacidade FROM Estadio WHERE nome = '"+nome+"';";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            resultSet.next();
+            String nm = resultSet.getString("nome");
+            int capacidade = resultSet.getInt("capacidade");
+
+            estadio = new Estadio(nome, capacidade);
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        BaseDAOImp.closeConnection();
+        return estadio;
+    }
+    
     @Override
     public int obterTamanho() {
         int total = 377;
