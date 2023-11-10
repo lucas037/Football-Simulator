@@ -5,27 +5,20 @@ import model.entity.Time;
 import model.entity.Campeonato;
 import model.entity.Jogo;
 
-import model.bo.JogoBO;
-import model.bo.EstadioBO;
-
 public class Main {
     public static void main(String args[]) {
         //System.out.println("Hello World!");
         
-        Tempo tmp = new Tempo(6, 1, 2023, 20, 58);
+        Tempo tmp = new Tempo(6, 1, 2023, 19, 58);
+        tmp.gerar();
         
-        JogoBO jgBO = new JogoBO();
-        Jogo[] jgos = jgBO.obter();
         
-        for (int i = 0; i < jgos.length; i++) {
-            tmp.addJogoHoje(jgos[i]);
-        }
         
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 3600; i++) {
             tmp.passarMinuto();
+            tmp.exibirJogosHoje();
             
         }
-        tmp.exibirJogosHoje();
         
         
     }

@@ -1,5 +1,7 @@
 package model.entity;
 
+import model.bo.JogoBO;
+
 public class Tempo extends Data {
     private Jogo[] jogos = new Jogo[100];
     private int numeroJogos = 0;
@@ -27,7 +29,22 @@ public class Tempo extends Data {
         super(dia, mes, ano, hora, minuto, diaSemana);
     }
     
+    public void gerar() {
+        gerarJogos();
+    }
     
+    public void gerarJogos() {
+        JogoBO jgBO = new JogoBO();
+        Jogo[] jogos = jgBO.obter();
+        
+        for (Jogo jgo : jogos) {
+            addJogo(jgo);
+            
+            if (!jgo.getFaseJogo().equals("Em Breve") && !jgo.getFaseJogo().equals("Finalizado") && !jgo.getFaseJogo().equals("Encerrado")) {
+                addJogoHoje(jgo);
+            }
+        }
+    }
     
     @Override
     public void passarMinuto() {
@@ -50,17 +67,8 @@ public class Tempo extends Data {
         for (int i = 0; i < numeroJogosDia; i++) {
             if (jogosHoje[i].getFaseJogo().equals("Em Breve")) {
                 Data dt = jogosHoje[i].getData();
-                boolean aux = true;
                 
-                if (!getData().equals(dt.getData())) {
-                    aux = false;
-                }
-                
-                else if (!getHora().equals(dt.getHora())) {
-                    aux = false;
-                }
-                
-                if (aux) { // inicia partida caso esteja no horário
+                if (getHora().equals(dt.getHora())) { // inicia partida caso esteja no horário
                     jogosHoje[i].passarMinuto();
                 }
             }
