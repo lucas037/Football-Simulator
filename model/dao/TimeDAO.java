@@ -3,7 +3,7 @@ package model.dao;
 import java.sql.*;
 import model.entity.Time;
 import model.entity.Estadio;
-import model.dao.EstadioDAO;
+import model.bo.EstadioBO;
 import model.entity.Info;
 
 public class TimeDAO extends BaseDAOImp<Time> {
@@ -36,6 +36,31 @@ public class TimeDAO extends BaseDAOImp<Time> {
         
         BaseDAOImp.closeConnection();
         return times;
+    }
+    
+    public Time obter(String nome) {
+        Time time = new Time("Sem Nome");
+        try {
+            Connection connection = BaseDAOImp.getConnection();
+
+            String query = "SELECT * FROM Time WHERE Nome = '"+nome+"';";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            resultSet.next();
+            int id = resultSet.getInt("id");
+            String nomeEstadio = resultSet.getString("estadio");
+            
+            EstadioBO estBO = new EstadioBO();
+            Estadio estadio = estBO.obter(nomeEstadio);
+            
+            time = new Time(id, nome, estadio);
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return time;
     }
     
     @Override

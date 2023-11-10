@@ -31,6 +31,21 @@ public class Data {
         setHoraEMinuto(hora, minuto);
     }
     
+    public Data(java.sql.Date data, java.sql.Time hora) {
+        var localDate = data.toLocalDate();
+        
+        int dia = localDate.getDayOfMonth();
+        int mes = localDate.getMonthValue();
+        int ano = localDate.getYear();
+        
+        var localTime = hora.toLocalTime();
+        int horario = localTime.getHour();
+        int minuto = localTime.getMinute();
+        
+        setData(dia, mes, ano);
+        setHoraEMinuto(horario, minuto);
+    }
+    
     public void setData(int dia, int mes, int ano) {
         boolean aux = true;
         

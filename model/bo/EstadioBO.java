@@ -14,6 +14,11 @@ public class EstadioBO implements BaseBO<Estadio> {
         return estadios;
     }
     
+    public Estadio obter(String nome) {
+        EstadioDAO esDAO = new EstadioDAO();
+        return esDAO.obter(nome);
+    }
+    
     @Override
     public int obterTamanho() {
         EstadioDAO esDAO = new EstadioDAO();

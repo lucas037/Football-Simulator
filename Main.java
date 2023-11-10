@@ -3,23 +3,23 @@ import model.entity.Info;
 import model.entity.Estadio;
 import model.entity.Time;
 import model.entity.Campeonato;
+import model.entity.Jogo;
+
+import model.bo.JogoBO;
+import model.bo.EstadioBO;
 
 public class Main {
     public static void main(String args[]) {
         //System.out.println("Hello World!");
         
         Tempo tmp = new Tempo(6, 1, 2023, 20, 58);
-        Info dados = new Info();
         
-        Estadio[] estadios = dados.getEstadios();
-        Time[] times = dados.getTimes();
-        Campeonato[] campeonatos = dados.getCampeonatos();
+        JogoBO jgBO = new JogoBO();
+        Jogo[] jgos = jgBO.obter();
         
-        for (int i = 0; i < times.length; i++) {
-            System.out.println(times[i].toString());
+        for (int i = 0; i < jgos.length; i++) {
+            System.out.println(jgos[i].toString());
         }
-        
-        //campeonatos[0].exibirTimes();
         
         
     }

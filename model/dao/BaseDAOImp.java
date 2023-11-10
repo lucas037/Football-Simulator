@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class BaseDAOImp<Entity> implements BaseDAO<Entity> {
-    
     static final String url = "jdbc:postgresql://localhost:5432/FS_dados";
     static final String user = "postgres";
     static final String password = "0517";
