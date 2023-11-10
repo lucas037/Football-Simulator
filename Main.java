@@ -18,8 +18,14 @@ public class Main {
         Jogo[] jgos = jgBO.obter();
         
         for (int i = 0; i < jgos.length; i++) {
-            System.out.println(jgos[i].toString());
+            tmp.addJogoHoje(jgos[i]);
         }
+        
+        for (int i = 0; i < 50; i++) {
+            tmp.passarMinuto();
+            
+        }
+        tmp.exibirJogosHoje();
         
         
     }

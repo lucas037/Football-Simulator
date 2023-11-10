@@ -4,21 +4,21 @@ import java.util.Random;
 
 public class Jogo {
     private int numJogo = -377;
+    private int numConfronto;
     private final Time timeA;
     private final Time timeB;
+    private int tempo = 0;
+    private String faseJogo = "Em Breve";
+    private int placarA = 0;
+    private int placarB = 0;
     private boolean jogoAgregado = false;
-    private int numConfronto;
     private int agregadoA = 0;
     private int agregadoB = 0;
     private Time classificado;
     private int penaltiA = 0;
     private int penaltiB = 0;
-    private int placarA = 0;
-    private int placarB = 0;
-    private int tempo = 0;
     private int tempoAcrescimo = 0;
     private int tempoIntervalo = 0;
-    private String faseJogo = "Em Breve";
     private final Estadio estadio;
     private Data data;
     private String gols = "";
@@ -74,6 +74,22 @@ public class Jogo {
         this.numJogo = num;
     }
     
+    public String getFaseJogo() {
+        return this.faseJogo;
+    }
+    
+    public void setFaseJogo(String faseJogo) {
+        this.faseJogo = faseJogo;
+    }
+    
+    public boolean getTipoConfronto() {
+        return this.jogoAgregado;
+    }
+    
+    public void setTipoConfronto(boolean tipoConfronto) {
+        this.jogoAgregado = tipoConfronto;
+    }
+    
     public Time getTimeA() {
         return this.timeA;
     }
@@ -82,16 +98,43 @@ public class Jogo {
         return this.timeB;
     }
     
+    public int getTempo() {
+        return this.tempo;
+    }
+    
+    public void setTempo(int tempo) {
+        this.tempo = tempo;
+    }
+    
+    public int getTempoAcrescimo() {
+        return this.tempoAcrescimo;
+    }
+    
+    public void setTempoAcrescimo(int tempo) {
+        this.tempoAcrescimo = tempo;
+    }
+    
+    public void setPlacar(int a, int b) {
+        this.placarA = a;
+        this.placarB = b;
+    }
+    
+    public void setAgregado(int a, int b) {
+        this.agregadoA = a;
+        this.agregadoB = b;
+    }
+    
+    public void setPenalti(int a, int b) {
+        this.penaltiA = a;
+        this.penaltiB = b;
+    }
+    
     public int getPlacarA() {
         return this.placarA;
     }
     
     public int getPlacarB() {
         return this.placarB;
-    }
-    
-    public String getFaseJogo() {
-        return this.faseJogo;
     }
     
     public Data getData() {

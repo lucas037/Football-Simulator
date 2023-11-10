@@ -173,6 +173,12 @@ public class Tempo extends Data {
         }
     }
     
+    public void exibirJogosHoje() {
+        for (int i = 0; i < numeroJogosDia; i++) {
+            System.out.print(jogosHoje[i].toString());
+        }
+    }
+    
     public void exibirConfrontos() {
         for (int i = 0; i < numeroConfrontos; i++) {
             System.out.print(confrontos[i].getJogoA().toString());
