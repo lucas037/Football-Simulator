@@ -9,16 +9,20 @@ public class Main {
     public static void main(String args[]) {
         //System.out.println("Hello World!");
         
-        Tempo tmp = new Tempo(6, 1, 2023, 19, 58);
+        Tempo tmp = new Tempo(26, 1, 2024, 20, 56);
         tmp.gerar();
         
+        Info inf = new Info();
         
-        
-        for (int i = 0; i < 3600; i++) {
-            tmp.passarMinuto();
+        for (int i = 0; i < 2; i++) {
+            tmp.passarDia();
+            System.out.println("");
+            tmp.exibirData();
+            tmp.exibirHora();
             tmp.exibirJogosHoje();
-            
         }
+        
+        //tmp.salvar();
         
         
     }

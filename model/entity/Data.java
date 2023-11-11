@@ -157,7 +157,7 @@ public class Data {
     }
     
     public String getData() {
-        return this.dia+"-"+this.mes+"-"+this.ano;
+        return this.ano+"-"+this.mes+"-"+this.dia;
     }
     
     public String getData(String tipo, String tipoAux, boolean exibirDiaSemana) {

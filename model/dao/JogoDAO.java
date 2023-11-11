@@ -1,14 +1,50 @@
 package model.dao;
 
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import model.entity.Jogo;
 import model.entity.Data;
 import model.entity.Time;
 import model.bo.TimeBO;
 import model.entity.Estadio;
 import model.bo.EstadioBO;
+import model.entity.Jogo;
 
 public class JogoDAO extends BaseDAOImp<Jogo> {
+    public void salvar(Jogo jg) {
+        try {
+            Connection connection = BaseDAOImp.getConnection();
+            
+            String query = "DELETE FROM Jogo WHERE id = ?";
+            PreparedStatement dec = connection.prepareStatement(query);
+            dec.setInt(1, jg.getNumJogo());
+            
+            dec.executeUpdate();
+            
+            query = "INSERT INTO Jogo(id, timea, timeb, data, hora, estadio, progresso, tempo, tempoacres, placar_a, placar_b, agregado, jogo_agregado) VALUES (?, ?, ?, CAST(? AS DATE), CAST(? AS TIME), ?, ?, ?,?, ?, ?, ?, ?)";
+            dec = connection.prepareStatement(query);
+            dec.setInt(1, jg.getNumJogo());
+            dec.setString(2, jg.getTimeA().getNome());
+            dec.setString(3, jg.getTimeB().getNome());
+            dec.setString(4, jg.getData().getData());
+            dec.setString(5, jg.getData().getHora());
+            dec.setString(6, jg.getEstadio().getNome());
+            dec.setString(7, jg.getFaseJogo());
+            dec.setInt(8, jg.getTempo());
+            dec.setInt(9, jg.getTempoAcrescimo());
+            dec.setInt(10, jg.getPlacarA());
+            dec.setInt(11, jg.getPlacarB());
+            dec.setBoolean(12, jg.getTipoConfronto());
+            dec.setInt(13, jg.getJogoAgregado());
+            
+            dec.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     @Override
     public Jogo[] obter(Jogo[] jogos) {
         try {
@@ -36,7 +72,7 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
                 
                 jogos[i] = new Jogo(timeA, timeB, data, estadio);
                 
-                int id = resultSet.getInt("id_jogo");
+                int id = resultSet.getInt("id");
                 jogos[i].setNumJogo(id);
                 
                 String progresso = resultSet.getString("progresso");

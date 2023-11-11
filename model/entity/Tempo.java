@@ -29,6 +29,11 @@ public class Tempo extends Data {
         super(dia, mes, ano, hora, minuto, diaSemana);
     }
     
+    public void salvar() {
+        JogoBO jgBO = new JogoBO();
+        jgBO.salvar(jogos, numeroJogos);
+    }
+    
     public void gerar() {
         gerarJogos();
     }
@@ -40,7 +45,10 @@ public class Tempo extends Data {
         for (Jogo jgo : jogos) {
             addJogo(jgo);
             
-            if (!jgo.getFaseJogo().equals("Em Breve") && !jgo.getFaseJogo().equals("Finalizado") && !jgo.getFaseJogo().equals("Encerrado")) {
+            boolean jogoIniciado = !jgo.getFaseJogo().equals("Em Breve") && !jgo.getFaseJogo().equals("Finalizado") && !jgo.getFaseJogo().equals("Encerrado");
+            boolean jogoIniciaHoje = jgo.getData().getData().equals(getData());
+            
+            if (jogoIniciado || jogoIniciaHoje) {
                 addJogoHoje(jgo);
             }
         }
@@ -81,6 +89,7 @@ public class Tempo extends Data {
                 int numJogo = jogosHoje[i].getNumJogo();
                 int numConfronto = jogos[numJogo].getNumConfronto();
                 
+                /*
                 if (numJogo == confrontos[numConfronto].getNumJogoA()) { // testa se o numero do jogo é igual ao numero de primeiro jogo do confronto
                     confrontos[numConfronto].setJogoB(confrontos[numConfronto].getJogoA().getPlacarA(), confrontos[numConfronto].getJogoA().getPlacarB());
                     confrontos[numConfronto].setNumJogoB(numeroJogos); // seta o numero do jogo
@@ -90,6 +99,8 @@ public class Tempo extends Data {
                     System.out.println(numJogo+": Classificado: "+confrontos[numConfronto].getJogoB().getClassificado().getNome());
                     
                 }
+                */
+                System.out.println("Jogo Encerado! Ajudar Confronto!");
                 
                 jogosHoje[i].encerrarJogo();
             }
@@ -100,8 +111,8 @@ public class Tempo extends Data {
         if (numeroJogos < limiteJogos) {
             jogos[numeroJogos] = jogo;
             
-            jogos[numeroJogos].setNumJogo(numeroJogos);
-            
+            jogos[numeroJogos].setNumJogo(numeroJogos);  
+
             numeroJogos++;
         }
         else {

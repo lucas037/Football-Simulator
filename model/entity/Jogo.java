@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Jogo {
     private int numJogo = -377;
-    private int numConfronto;
+    private int numConfronto = -377;
     private final Time timeA;
     private final Time timeB;
     private int tempo = 0;
@@ -12,6 +12,7 @@ public class Jogo {
     private int placarA = 0;
     private int placarB = 0;
     private boolean jogoAgregado = false;
+    private int agregado;
     private int agregadoA = 0;
     private int agregadoB = 0;
     private Time classificado;
@@ -90,12 +91,24 @@ public class Jogo {
         this.jogoAgregado = tipoConfronto;
     }
     
+    public int getJogoAgregado() {
+        return this.agregado;
+    }
+    
+    public void setJogoAgregado(int agregado) {
+        this.agregado = agregado;
+    } 
+    
     public Time getTimeA() {
         return this.timeA;
     }
     
     public Time getTimeB() {
         return this.timeB;
+    }
+    
+    public Estadio getEstadio() {
+        return this.estadio;
     }
     
     public int getTempo() {
