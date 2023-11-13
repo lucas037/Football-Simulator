@@ -374,4 +374,14 @@ public class Data {
     public void exibirHora() {
         System.out.println(getHora());
     }
+    
+    public String toString() {
+        String str = "";
+        
+        str += getData("/", "abc", false);
+        str += ", ";
+        str += getHora();
+        
+        return str;
+    }
 }

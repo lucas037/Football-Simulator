@@ -19,6 +19,11 @@ public class TimeBO implements BaseBO<Time> {
         return tmDAO.obter(nome);
     }
     
+    public Time obter(int num) {
+        TimeDAO tmDAO = new TimeDAO();
+        return tmDAO.obter(num);
+    }
+    
     @Override
     public int obterTamanho() {
         TimeDAO tmDAO = new TimeDAO();

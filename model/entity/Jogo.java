@@ -544,7 +544,8 @@ public class Jogo {
             str += gols+"\n";
         }
         
-        str += numJogo+"\n";
+        str += "Num Jogo: "+numJogo+"\n";
+        str += "Num Confronto: "+numConfronto+"\n\n";
         
         return str;
     }

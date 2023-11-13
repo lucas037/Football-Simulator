@@ -4,54 +4,44 @@ public class Confronto {
     private int id = -377;
     private int idFase = -377;
     private String tipo = "Jogo Único";
-    private final Time timeA;
-    private final Time timeB;
-    private Estadio estadioA;
-    private Estadio estadioB;
-    private Data dataPartidaA;
-    private Data dataPartidaB;
-    private int idJogoA;
-    private int idJogoB;
-    private Jogo jogoA;
-    private Jogo jogoB;
-    private int numJogoA = 0;
-    private int numJogoB = 0;
-    private int numEstadioA = 0;
-    private int numEstadioB = 0;
+    private int idJogoA = -1;
+    private int idJogoB = -1;
+    private Data dataA;
+    private Data dataB;
+    private int idTimeA = -1;
+    private int idTimeB = -1;
+    private int idEstadioA = -1;
+    private int idEstadioB = -1;
     
-    public Confronto() {
-        this.timeA = new Time();
-        this.timeB = new Time();
+    public Confronto(int idTimeA, int idTimeB, Data data) {
+        setIDTimeA(idTimeA);
+        setIDTimeB(idTimeB);
+        setDataA(data);
     }
     
-    public Confronto(Time timeA, Time timeB, Data dataPartida) {
-        this.timeA = timeA;
-        this.timeB = timeB;
-        this.dataPartidaA = dataPartida;
-        jogoA = new Jogo(timeA, timeB, dataPartida);
+    public Confronto(int idTimeA, int idTimeB, Data data, int idEstadio) {
+        setIDTimeA(idTimeA);
+        setIDTimeB(idTimeB);
+        setDataA(data);
+        setIDEstadioA(idEstadio);
     }
     
-    public Confronto(Time timeA, Time timeB, Data dataPartida, Estadio estadio) {
-        this.timeA = timeA;
-        this.timeB = timeB;
-        this.dataPartidaA = dataPartida;
-        jogoA = new Jogo(timeA, timeB, dataPartida, estadio);
+    public Confronto(int idTimeA, int idTimeB, Data dataA, Data dataB) {
+        setTipo("Casa e Fora");
+        setIDTimeA(idTimeA);
+        setIDTimeB(idTimeB);
+        setDataA(dataA);
+        setDataB(dataB);
     }
     
-    public Confronto(Time timeA, Time timeB, Data dataPartidaA, Data dataPartidaB) {
-        this.timeA = timeA;
-        this.timeB = timeB;
-        this.dataPartidaA = dataPartidaA;
-        this.dataPartidaB = dataPartidaB;
-        jogoA = new Jogo(timeA, timeB, dataPartidaA);
-    }
-    
-    public Confronto(Time timeA, Time timeB, Data dataPartidaA, Data dataPartidaB, Estadio estadioA, Estadio estadioB) {
-        this.timeA = timeA;
-        this.timeB = timeB;
-        this.dataPartidaA = dataPartidaA;
-        this.dataPartidaB = dataPartidaB;
-        jogoA = new Jogo(timeA, timeB, dataPartidaA, estadioA);
+    public Confronto(int idTimeA, int idTimeB, Data dataA, Data dataB, int idEstadioA, int idEstadioB) {
+        setTipo("Casa e Fora");
+        setIDTimeA(idTimeA);
+        setIDTimeB(idTimeB);
+        setDataA(dataA);
+        setDataB(dataB);
+        setIDEstadioA(idEstadioA);
+        setIDEstadioB(idEstadioB);
     }
     
     public int getID() {
@@ -66,8 +56,16 @@ public class Confronto {
         return this.idFase;
     }
     
-    public int setIDFase(int id) {
-        return this.idFase;
+    public void setIDFase(int idFase) {
+        this.idFase = idFase;
+    }
+    
+    public String getTipo() {
+        return this.tipo;
+    }
+    
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
     
     public int getIDJogoA() {
@@ -86,76 +84,68 @@ public class Confronto {
         this.idJogoB = id;
     }
     
-    public void getIDJogoB(int id) {
-        this.idJogoB = id;
+    public Data getDataA() {
+        return this.dataA;
     }
     
-    public Jogo getJogoA() {
-        return this.jogoA;
+    public void setDataA(Data data) {
+        this.dataA = data;
     }
     
-    public Jogo getJogoB() {
-        return this.jogoB;
+    public Data getDataB() {
+        return this.dataB;
     }
     
-    public void setJogoB(int agregadoA, int agregadoB) {
-        if (estadioB != null) {
-            jogoB = new Jogo(timeB, agregadoB, timeA, agregadoA, dataPartidaB, estadioB);
-            jogoB.setJogoAgregado();
-        }
-        else {
-            jogoB = new Jogo(timeB, agregadoB, timeA, agregadoA, dataPartidaB);
-            jogoB.setJogoAgregado();
-        }
+    public void setDataB(Data data) {
+        this.dataB = data;
     }
     
-    public int getNumJogoA() {
-        return this.numJogoA;
+    public int getIDTimeA() {
+        return this.idTimeA;
     }
     
-    public void setNumJogoA(int num) {
-        this.numJogoA = num;
+    public void setIDTimeA(int num) {
+        this.idTimeA = num;
     }
     
-    public int getNumJogoB() {
-        return this.numJogoB;
+    public int getIDTimeB() {
+        return this.idTimeB;
     }
     
-    public void setNumJogoB(int num) {
-        this.numJogoB = num;
+    public void setIDTimeB(int num) {
+        this.idTimeB = num;
     }
     
-    public void setNumConfrontoJogoA(int num) {
-        jogoA.setNumConfronto(num);
+    public int getIDEstadioA() {
+        return this.idEstadioA;
     }
     
-    public void setNumConfrontoJogoB() {
-        jogoB.setNumConfronto(jogoA.getNumConfronto());
+    public void setIDEstadioA(int num) {
+        this.idEstadioA = num;
     }
     
-    public int getNumEstadioA() {
-        return this.numEstadioA;
+    public int getIDEstadioB() {
+        return this.idEstadioB;
     }
     
-    public void setNumEstadioA(int num) {
-        this.numEstadioA = num;
+    public void setIDEstadioB(int num) {
+        this.idEstadioB = num;
     }
     
-    public int getNumEstadioB() {
-        return this.numEstadioB;
-    }
-    
-    public void setNumEstadioB(int num) {
-        this.numEstadioB = num;
-    }
-    
-    public void exibirConfronto() {
-        System.out.println(jogoA.toString());
+    public String toString() {
+        String str = "";
+        str += "Id: "+id+"\n";
+        str += "Id Fase: "+idFase+"\n";
+        str += "Tipo: "+tipo+"\n";
+        str += "Id Jogos: ("+idJogoA+", "+idJogoB+")\n";
+        str += "Id Time: ("+idTimeA+", "+idTimeB+")\n";
+        str += "Id Estádio: ("+idEstadioA+", "+idEstadioB+")\n";
         
-        if (jogoB != null)
-            System.out.println(jogoB.toString());
-        else
-            System.out.println("Segundo Jogo ainda não definido.");
+        str += "Data Jogo 1: "+dataA.toString()+"\n";
+        if (dataB != null)
+            str += "Data Jogo 2: "+dataB.toString()+"\n";
+        
+        return str;
     }
     
 }

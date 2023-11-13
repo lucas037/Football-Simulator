@@ -63,6 +63,31 @@ public class TimeDAO extends BaseDAOImp<Time> {
         return time;
     }
     
+    public Time obter(int num) {
+        Time time = new Time("Sem Nome");
+        try {
+            Connection connection = BaseDAOImp.getConnection();
+
+            String query = "SELECT * FROM Time WHERE id = '"+num+"';";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            resultSet.next();
+            String nome = resultSet.getString("nome");
+            String nomeEstadio = resultSet.getString("estadio");
+            
+            EstadioBO estBO = new EstadioBO();
+            Estadio estadio = estBO.obter(nomeEstadio);
+            
+            time = new Time(num, nome, estadio);
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return time;
+    }
+    
     @Override
     public int obterTamanho() {
         int total = 377;

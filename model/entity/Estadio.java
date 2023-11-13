@@ -1,6 +1,7 @@
 package model.entity;
 
 public class Estadio {
+    private int id;
     private String nome;
     private int capacidade;
     private String dono;
@@ -23,10 +24,25 @@ public class Estadio {
         setDono(null);
     }
     
+    public Estadio(int id, String nome, int capacidade) {
+        setID(id);
+        setNome(nome);
+        setCapacidade(capacidade);
+        setDono(null);
+    }
+    
     public Estadio(String nome, int capacidade, String dono) {
         setNome(nome);
         setCapacidade(capacidade);
         setDono(dono);
+    }
+    
+    public int getID() {
+        return this.id;
+    }
+    
+    public void setID(int id) {
+        this.id = id;
     }
     
     public void setNome(String nome) {

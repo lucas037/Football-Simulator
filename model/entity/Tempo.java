@@ -2,6 +2,8 @@ package model.entity;
 
 import model.bo.JogoBO;
 import model.bo.ConfrontoBO;
+import model.bo.TimeBO;
+import model.bo.EstadioBO;
 
 public class Tempo extends Data {
     private Jogo[] jogos = new Jogo[100];
@@ -99,17 +101,18 @@ public class Tempo extends Data {
                 int numJogo = jogosHoje[i].getNumJogo();
                 int numConfronto = jogos[numJogo].getNumConfronto();
                 
-                System.out.println(jogosHoje[i].toString());
+                System.out.println(jogos[numJogo].toString());
                 
                 if (numConfronto >= 0) {
-                    if (numJogo == confrontos[numConfronto].getNumJogoA()) { // testa se o numero do jogo é igual ao numero de primeiro jogo do confronto
-                        confrontos[numConfronto].setJogoB(confrontos[numConfronto].getJogoA().getPlacarA(), confrontos[numConfronto].getJogoA().getPlacarB());
-                        confrontos[numConfronto].setNumJogoB(numeroJogos); // seta o numero do jogo
-                        addJogo(confrontos[numConfronto].getJogoB()); // adiciona a lista de jogos
-                        jogos[numeroJogos-1].setNumConfronto(numConfronto);
+                    if (numJogo == confrontos[numConfronto].getIDJogoA()) { // testa se o numero do jogo é igual ao numero de primeiro jogo do confronto
+                        int idJogoB = confrontos[numConfronto].getIDJogoB();
+                        int placarA = jogosHoje[i].getPlacarA();
+                        int placarB = jogosHoje[i].getPlacarB();
+                        jogos[idJogoB].setAgregado(placarB, placarA);
                     }
-                    else if (numJogo == confrontos[numConfronto].getNumJogoB()) {
-                        System.out.println(numJogo+": Classificado: "+confrontos[numConfronto].getJogoB().getClassificado().getNome());
+                    else if (numJogo == confrontos[numConfronto].getIDJogoB()) {
+                        int idJogoB = confrontos[numConfronto].getIDJogoB();
+                        System.out.println("Classificado Confronto "+numConfronto+": "+jogos[idJogoB].getClassificado().getNome());
                     }
                 }
                 
@@ -173,12 +176,51 @@ public class Tempo extends Data {
         if (numeroConfrontos < limiteConfrontos) {
             confrontos[numeroConfrontos] = confronto;
             
-            confronto.setNumConfrontoJogoA(numeroConfrontos);
-            confronto.setNumJogoA(numeroJogos);
+            TimeBO tmBO = new TimeBO();
+            EstadioBO esBO = new EstadioBO();
             
-            confronto.setID(numeroConfrontos);
+            Time timeA = tmBO.obter(confronto.getIDTimeA());
+            Time timeB = tmBO.obter(confronto.getIDTimeB());
+            Data dataA = confronto.getDataA();
             
-            addJogo(confronto.getJogoA());
+            // caso o estádio não esteja definido, definide como o do time da casa
+            Estadio estadioA = new Estadio();
+            if (confronto.getIDEstadioA() >= 0) {
+                estadioA = esBO.obter(confronto.getIDEstadioA());
+            }
+            else {
+                int idEstadioA = timeA.getEstadio().getID();
+                estadioA = esBO.obter(idEstadioA);
+            }
+            
+            Jogo jogoA = new Jogo(timeA, timeB, dataA, estadioA);
+            addJogo(jogoA);
+            
+            jogos[numeroJogos-1].setNumConfronto(numeroConfrontos);
+            confrontos[numeroConfrontos].setIDJogoA(numeroJogos-1);
+            
+            // Adiciona jogos da volta, caso exista
+            if (confronto.getTipo().equals("Casa e Fora")) {
+                Data dataB = confronto.getDataB();
+
+                // caso o estádio não esteja definido, definide como o do time da casa
+                Estadio estadioB = new Estadio();
+                if (confronto.getIDEstadioB() >= 0) {
+                    estadioB = esBO.obter(confronto.getIDEstadioB());
+                }
+                else {
+                    int idEstadioB = timeB.getEstadio().getID();
+                    estadioB = esBO.obter(idEstadioB);
+                }
+
+                Jogo jogoB = new Jogo(timeB, timeA, dataB, estadioB);
+                addJogo(jogoB);
+            
+                jogos[numeroJogos-1].setNumConfronto(numeroConfrontos);
+                jogos[numeroJogos-1].setTipoConfronto(true);
+                confrontos[numeroConfrontos].setIDJogoB(numeroJogos-1);
+
+            }
             
             numeroConfrontos++;
         }
@@ -214,8 +256,7 @@ public class Tempo extends Data {
     
     public void exibirConfrontos() {
         for (int i = 0; i < numeroConfrontos; i++) {
-            System.out.print(confrontos[i].getJogoA().toString());
-            System.out.println(confrontos[i].getJogoB().toString());
+            System.out.print(confrontos[i].toString());
         }
     }
     

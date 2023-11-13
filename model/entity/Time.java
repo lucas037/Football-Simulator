@@ -7,10 +7,12 @@ public class Time {
     
     public Time() {
         setNome("No Name");
+        setEstadio(null);
     }
     
     public Time(String nome) {
         setNome(nome);
+        setEstadio(null);
     }
     
     public Time(String nome, Estadio estadio) {
@@ -49,8 +51,11 @@ public class Time {
     }
     
     public void setEstadio(Estadio estadio) {
-        if (estadio.getNome() != null) {
+        if (estadio != null) {
             this.estadio = estadio;  
+        }
+        else {
+            this.estadio = new Estadio("Sem Nome");
         }
     }
     
@@ -58,7 +63,7 @@ public class Time {
     public String toString() {
         String str = "";
         
-        str += "ID: "+id;
+        str += "Id: "+id;
         str += "\nNome: "+nome;
         str += "\n-";
         str += "\nInformações do Estádio:\n";
