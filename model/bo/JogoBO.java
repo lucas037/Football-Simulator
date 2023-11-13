@@ -22,6 +22,11 @@ public class JogoBO implements BaseBO<Jogo> {
         return jogos;
     }
     
+    public Jogo obter(int num) {
+        JogoDAO jgDAO = new JogoDAO();
+        return jgDAO.obter(num);
+    }
+    
     @Override
     public int obterTamanho() {
         JogoDAO jgDAO = new JogoDAO();

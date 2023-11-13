@@ -1,6 +1,7 @@
 package model.entity;
 
 import model.bo.JogoBO;
+import model.bo.ConfrontoBO;
 
 public class Tempo extends Data {
     private Jogo[] jogos = new Jogo[100];
@@ -32,10 +33,19 @@ public class Tempo extends Data {
     public void salvar() {
         JogoBO jgBO = new JogoBO();
         jgBO.salvar(jogos, numeroJogos);
+        
+        ConfrontoBO cftBO = new ConfrontoBO();
+        cftBO.salvar(confrontos, numeroConfrontos);
     }
     
     public void gerar() {
         gerarJogos();
+        gerarConfrontos();
+    }
+    
+    public void gerarConfrontos() {
+        ConfrontoBO cftBO = new ConfrontoBO();
+        Confronto[] confrontos = cftBO.obter();
     }
     
     public void gerarJogos() {
@@ -89,18 +99,20 @@ public class Tempo extends Data {
                 int numJogo = jogosHoje[i].getNumJogo();
                 int numConfronto = jogos[numJogo].getNumConfronto();
                 
-                /*
-                if (numJogo == confrontos[numConfronto].getNumJogoA()) { // testa se o numero do jogo é igual ao numero de primeiro jogo do confronto
-                    confrontos[numConfronto].setJogoB(confrontos[numConfronto].getJogoA().getPlacarA(), confrontos[numConfronto].getJogoA().getPlacarB());
-                    confrontos[numConfronto].setNumJogoB(numeroJogos); // seta o numero do jogo
-                    addJogo(confrontos[numConfronto].getJogoB()); // adiciona a lista de jogos
+                System.out.println(jogosHoje[i].toString());
+                
+                if (numConfronto >= 0) {
+                    if (numJogo == confrontos[numConfronto].getNumJogoA()) { // testa se o numero do jogo é igual ao numero de primeiro jogo do confronto
+                        confrontos[numConfronto].setJogoB(confrontos[numConfronto].getJogoA().getPlacarA(), confrontos[numConfronto].getJogoA().getPlacarB());
+                        confrontos[numConfronto].setNumJogoB(numeroJogos); // seta o numero do jogo
+                        addJogo(confrontos[numConfronto].getJogoB()); // adiciona a lista de jogos
+                        jogos[numeroJogos-1].setNumConfronto(numConfronto);
+                    }
+                    else if (numJogo == confrontos[numConfronto].getNumJogoB()) {
+                        System.out.println(numJogo+": Classificado: "+confrontos[numConfronto].getJogoB().getClassificado().getNome());
+                    }
                 }
-                else if (numJogo == confrontos[numConfronto].getNumJogoB()) {
-                    System.out.println(numJogo+": Classificado: "+confrontos[numConfronto].getJogoB().getClassificado().getNome());
-                    
-                }
-                */
-                System.out.println("Jogo Encerado! Ajudar Confronto!");
+                
                 
                 jogosHoje[i].encerrarJogo();
             }
@@ -163,6 +175,8 @@ public class Tempo extends Data {
             
             confronto.setNumConfrontoJogoA(numeroConfrontos);
             confronto.setNumJogoA(numeroJogos);
+            
+            confronto.setID(numeroConfrontos);
             
             addJogo(confronto.getJogoA());
             

@@ -1,17 +1,28 @@
 package model.entity;
 
 public class Confronto {
-    String tipo = "Jogo Único";
+    private int id = -377;
+    private int idFase = -377;
+    private String tipo = "Jogo Único";
     private final Time timeA;
     private final Time timeB;
     private Estadio estadioA;
     private Estadio estadioB;
-    Data dataPartidaA;
-    Data dataPartidaB;
-    Jogo jogoA;
-    Jogo jogoB;
-    int numJogoA = 0;
-    int numJogoB = 0;
+    private Data dataPartidaA;
+    private Data dataPartidaB;
+    private int idJogoA;
+    private int idJogoB;
+    private Jogo jogoA;
+    private Jogo jogoB;
+    private int numJogoA = 0;
+    private int numJogoB = 0;
+    private int numEstadioA = 0;
+    private int numEstadioB = 0;
+    
+    public Confronto() {
+        this.timeA = new Time();
+        this.timeB = new Time();
+    }
     
     public Confronto(Time timeA, Time timeB, Data dataPartida) {
         this.timeA = timeA;
@@ -41,6 +52,42 @@ public class Confronto {
         this.dataPartidaA = dataPartidaA;
         this.dataPartidaB = dataPartidaB;
         jogoA = new Jogo(timeA, timeB, dataPartidaA, estadioA);
+    }
+    
+    public int getID() {
+        return this.id;
+    }
+    
+    public void setID(int id) {
+        this.id = id;
+    }
+    
+    public int getIDFase() {
+        return this.idFase;
+    }
+    
+    public int setIDFase(int id) {
+        return this.idFase;
+    }
+    
+    public int getIDJogoA() {
+        return this.idJogoA;
+    }
+    
+    public void setIDJogoA(int id) {
+        this.idJogoA = id;
+    }
+    
+    public int getIDJogoB() {
+        return this.idJogoB;
+    }
+    
+    public void setIDJogoB(int id) {
+        this.idJogoB = id;
+    }
+    
+    public void getIDJogoB(int id) {
+        this.idJogoB = id;
     }
     
     public Jogo getJogoA() {
@@ -84,6 +131,22 @@ public class Confronto {
     
     public void setNumConfrontoJogoB() {
         jogoB.setNumConfronto(jogoA.getNumConfronto());
+    }
+    
+    public int getNumEstadioA() {
+        return this.numEstadioA;
+    }
+    
+    public void setNumEstadioA(int num) {
+        this.numEstadioA = num;
+    }
+    
+    public int getNumEstadioB() {
+        return this.numEstadioB;
+    }
+    
+    public void setNumEstadioB(int num) {
+        this.numEstadioB = num;
     }
     
     public void exibirConfronto() {

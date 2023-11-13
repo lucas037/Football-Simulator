@@ -20,7 +20,7 @@ public class Jogo {
     private int penaltiB = 0;
     private int tempoAcrescimo = 0;
     private int tempoIntervalo = 0;
-    private final Estadio estadio;
+    private Estadio estadio;
     private Data data;
     private String gols = "";
     Random rand = new Random();
@@ -111,6 +111,10 @@ public class Jogo {
         return this.estadio;
     }
     
+    public void setEstadio(Estadio estadio) {
+        this.estadio = estadio;
+    }
+    
     public int getTempo() {
         return this.tempo;
     }
@@ -125,6 +129,14 @@ public class Jogo {
     
     public void setTempoAcrescimo(int tempo) {
         this.tempoAcrescimo = tempo;
+    }
+    
+    public int getTempoIntervalo() {
+        return this.tempoIntervalo;
+    }
+    
+    public void setTempoIntervalo(int tempo) {
+        this.tempoIntervalo = tempo;
     }
     
     public void setPlacar(int a, int b) {
@@ -167,9 +179,7 @@ public class Jogo {
     }
     
     public void setNumConfronto(int num) {
-        if (num >= 0) {
-            this.numConfronto = num;
-        }
+        this.numConfronto = num;
     }
     
     public void encerrarJogo() {

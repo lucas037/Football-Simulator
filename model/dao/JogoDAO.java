@@ -22,7 +22,7 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
             
             dec.executeUpdate();
             
-            query = "INSERT INTO Jogo(id, timea, timeb, data, hora, estadio, progresso, tempo, tempoacres, placar_a, placar_b, agregado, jogo_agregado) VALUES (?, ?, ?, CAST(? AS DATE), CAST(? AS TIME), ?, ?, ?,?, ?, ?, ?, ?)";
+            query = "INSERT INTO Jogo(id, timea, timeb, data, hora, estadio, progresso, tempo, tempoacres, tempo_intervalo, placar_a, placar_b, agregado, jogo_agregado, id_confronto) VALUES (?, ?, ?, CAST(? AS DATE), CAST(? AS TIME), ?, ?, ?, ?,?, ?, ?, ?, ?, ?)";
             dec = connection.prepareStatement(query);
             dec.setInt(1, jg.getNumJogo());
             dec.setString(2, jg.getTimeA().getNome());
@@ -33,10 +33,12 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
             dec.setString(7, jg.getFaseJogo());
             dec.setInt(8, jg.getTempo());
             dec.setInt(9, jg.getTempoAcrescimo());
-            dec.setInt(10, jg.getPlacarA());
-            dec.setInt(11, jg.getPlacarB());
-            dec.setBoolean(12, jg.getTipoConfronto());
-            dec.setInt(13, jg.getJogoAgregado());
+            dec.setInt(10, jg.getTempoIntervalo());
+            dec.setInt(11, jg.getPlacarA());
+            dec.setInt(12, jg.getPlacarB());
+            dec.setBoolean(13, jg.getTipoConfronto());
+            dec.setInt(14, jg.getJogoAgregado());
+            dec.setInt(15, jg.getNumConfronto());
             
             dec.executeUpdate();
             
@@ -75,6 +77,9 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
                 int id = resultSet.getInt("id");
                 jogos[i].setNumJogo(id);
                 
+                int idConfronto = resultSet.getInt("id_confronto");
+                jogos[i].setNumConfronto(idConfronto);
+                
                 String progresso = resultSet.getString("progresso");
                 jogos[i].setFaseJogo(progresso);
                 
@@ -82,6 +87,7 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
                     jogos[i].setPlacar(resultSet.getInt("placar_a"), resultSet.getInt("placar_b"));
                     jogos[i].setTempo(resultSet.getInt("tempo"));
                     jogos[i].setTempoAcrescimo(resultSet.getInt("tempoacres"));
+                    jogos[i].setTempoIntervalo(resultSet.getInt("tempo_intervalo"));
                 }
                 
                 boolean agregado = resultSet.getBoolean("agregado");
@@ -102,6 +108,70 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
         
         BaseDAOImp.closeConnection();
         return jogos;
+    }
+    
+    public Jogo obter(int num) {
+        Jogo jogo = new Jogo(new Time(), new Time(), new Data());
+        
+        try {
+            Connection connection = BaseDAOImp.getConnection();
+
+            String query = "SELECT * FROM Jogo WHERE id = "+num;
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            int i = 0;
+            resultSet.next();
+            
+            String nomeA = resultSet.getString("timea");
+            String nomeB = resultSet.getString("timeb");
+            TimeBO tmBO = new TimeBO();
+            Time timeA = tmBO.obter(nomeA);
+            Time timeB = tmBO.obter(nomeB);
+
+            String nomeEstadio = resultSet.getString("estadio");
+            EstadioBO esBO = new EstadioBO();
+            Estadio estadio = esBO.obter(nomeEstadio);
+
+            java.sql.Date nData = resultSet.getDate("data");
+            java.sql.Time nHora = resultSet.getTime("hora");
+            Data data = new Data(nData, nHora);
+
+            jogo = new Jogo(timeA, timeB, data, estadio);
+
+            int id = resultSet.getInt("id");
+            jogo.setNumJogo(id);
+
+            int idConfronto = resultSet.getInt("id_confronto");
+            jogo.setNumConfronto(idConfronto);
+
+            String progresso = resultSet.getString("progresso");
+            jogo.setFaseJogo(progresso);
+
+            if (!progresso.equals("Em Breve")) {
+                jogo.setPlacar(resultSet.getInt("placar_a"), resultSet.getInt("placar_b"));
+                jogo.setTempo(resultSet.getInt("tempo"));
+                jogo.setTempoAcrescimo(resultSet.getInt("tempoacres"));
+                jogo.setTempoIntervalo(resultSet.getInt("tempo_intervalo"));
+            }
+
+            boolean agregado = resultSet.getBoolean("agregado");
+            jogo.setTipoConfronto(agregado);
+
+            if (agregado) {
+                jogo.setAgregado(resultSet.getInt("agregado_a"), resultSet.getInt("agregado_b"));
+                jogo.setPenalti(resultSet.getInt("penalti_a"), resultSet.getInt("penalti_b"));
+            }
+
+            i++;
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        BaseDAOImp.closeConnection();
+        return jogo;
     }
     
     @Override
