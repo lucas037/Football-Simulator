@@ -37,16 +37,19 @@ public class EstadioDAO extends BaseDAOImp<Estadio> {
         try {
             Connection connection = BaseDAOImp.getConnection();
 
-            String query = "SELECT * FROM Estadio WHERE nome = '"+nome+"';";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            
-            resultSet.next();
-            int id = resultSet.getInt("id");
-            String nm = resultSet.getString("nome");
-            int capacidade = resultSet.getInt("capacidade");
+            if (!nome.equals("Sem Nome")) {
+                String query = "SELECT * FROM Estadio WHERE nome = '"+nome+"';";
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query);
 
-            estadio = new Estadio(id, nome, capacidade);
+                resultSet.next();
+                
+                int id = resultSet.getInt("id");
+                String nm = resultSet.getString("nome");
+                int capacidade = resultSet.getInt("capacidade");
+
+                estadio = new Estadio(id, nome, capacidade);
+            }
             
 
         } catch (SQLException e) {

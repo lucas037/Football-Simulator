@@ -48,6 +48,10 @@ public class Tempo extends Data {
     public void gerarConfrontos() {
         ConfrontoBO cftBO = new ConfrontoBO();
         Confronto[] confrontos = cftBO.obter();
+        
+        for (Confronto confronto : confrontos) {
+            addConfronto(confronto);
+        }
     }
     
     public void gerarJogos() {
@@ -79,9 +83,16 @@ public class Tempo extends Data {
                 if (getData().equals(dt.getData())) {
                     addJogoHoje(jogos[i]);
                 }
+                else {
+                    // caso o jogo tenha iniciado no dia anterior, mas não tenha finalizado, é adicionado aos jogos do dia
+                    boolean jogoEncerrado = jogos[i].getFaseJogo().equals("Encerrado!");
+                    boolean jogoIniciado = !jogos[i].getFaseJogo().equals("Em Breve");
+                    
+                    if (!jogoEncerrado && jogoIniciado) {
+                        addJogoHoje(jogos[i]);
+                    }
+                }
             }
-                
-            // Aqui faz-se, através do banco de dados, tempo obter todos os eventos do dia (jogos e outros)
         }
         
         for (int i = 0; i < numeroJogosDia; i++) {
@@ -175,57 +186,61 @@ public class Tempo extends Data {
     public void addConfronto(Confronto confronto) {
         if (numeroConfrontos < limiteConfrontos) {
             confrontos[numeroConfrontos] = confronto;
+            confrontos[numeroConfrontos].setID(numeroConfrontos);
             
-            TimeBO tmBO = new TimeBO();
-            EstadioBO esBO = new EstadioBO();
-            
-            Time timeA = tmBO.obter(confronto.getIDTimeA());
-            Time timeB = tmBO.obter(confronto.getIDTimeB());
-            Data dataA = confronto.getDataA();
-            
-            // caso o estádio não esteja definido, definide como o do time da casa
-            Estadio estadioA = new Estadio();
-            if (confronto.getIDEstadioA() >= 0) {
-                estadioA = esBO.obter(confronto.getIDEstadioA());
-            }
-            else {
-                int idEstadioA = timeA.getEstadio().getID();
-                estadioA = esBO.obter(idEstadioA);
-            }
-            
-            Jogo jogoA = new Jogo(timeA, timeB, dataA, estadioA);
-            addJogo(jogoA);
-            
-            jogos[numeroJogos-1].setNumConfronto(numeroConfrontos);
-            confrontos[numeroConfrontos].setIDJogoA(numeroJogos-1);
-            
-            // Adiciona jogos da volta, caso exista
-            if (confronto.getTipo().equals("Casa e Fora")) {
-                Data dataB = confronto.getDataB();
-
-                // caso o estádio não esteja definido, definide como o do time da casa
-                Estadio estadioB = new Estadio();
-                if (confronto.getIDEstadioB() >= 0) {
-                    estadioB = esBO.obter(confronto.getIDEstadioB());
+            if(confronto.getIDJogoA() < 0) {
+                // informações Jogo A
+                TimeBO tmBO = new TimeBO();
+                int idTimeA = confronto.getIDTimeA();
+                int idTimeB = confronto.getIDTimeB();
+                Time timeA = tmBO.obter(idTimeA);
+                Time timeB = tmBO.obter(idTimeB);
+                
+                Data dataA = confronto.getDataA();
+                
+                int idEstadioA = confronto.getIDEstadioA();
+                Estadio estadioA = new Estadio();
+                EstadioBO esBO = new EstadioBO();
+                if (idEstadioA < 0) {
+                    estadioA = esBO.obter(idTimeA);
+                    idEstadioA = estadioA.getID();
                 }
                 else {
-                    int idEstadioB = timeB.getEstadio().getID();
+                    estadioA = esBO.obter(idEstadioA);
+                }
+                confrontos[numeroConfrontos].setIDEstadioA(idEstadioA);
+                
+                Jogo jg = new Jogo(timeA, timeB, dataA, estadioA);
+                addJogo(jg);
+                jogos[numeroJogos-1].setNumConfronto(numeroConfrontos);
+                confrontos[numeroConfrontos].setIDJogoA(numeroJogos-1);
+                
+                
+                // informações Jogo B
+                Data dataB = confronto.getDataB();
+                
+                int idEstadioB = confronto.getIDEstadioB();
+                Estadio estadioB = new Estadio();
+                if (idEstadioB < 0) {
+                    estadioB = esBO.obter(idTimeB);
+                    idEstadioB = estadioB.getID();
+                }
+                else {
                     estadioB = esBO.obter(idEstadioB);
                 }
-
-                Jogo jogoB = new Jogo(timeB, timeA, dataB, estadioB);
-                addJogo(jogoB);
-            
+                confrontos[numeroConfrontos].setIDEstadioB(idEstadioB);
+                
+                jg = new Jogo(timeB, timeA, dataB, estadioB);
+                jg.setTipoConfronto(true);
+                addJogo(jg);
                 jogos[numeroJogos-1].setNumConfronto(numeroConfrontos);
-                jogos[numeroJogos-1].setTipoConfronto(true);
                 confrontos[numeroConfrontos].setIDJogoB(numeroJogos-1);
-
             }
-            
+
             numeroConfrontos++;
         }
         else {
-            Confronto[] novoVetorConfrontos = new Confronto[limiteConfrontos*2];
+            Confronto[] novoVetorConfrontos = new Confronto[limiteJogos*2];
             
             for (int i = 0; i < limiteConfrontos; i++) {
                 novoVetorConfrontos[i] = confrontos[i];
@@ -236,9 +251,9 @@ public class Tempo extends Data {
             
             limiteConfrontos = limiteConfrontos * 2;
             
+            System.out.println("Tamanho do Vetor Confrontos Aumentou");
+            
             addConfronto(confronto);
-            
-            
         }
     }
     

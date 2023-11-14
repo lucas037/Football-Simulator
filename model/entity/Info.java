@@ -7,12 +7,10 @@ import model.bo.TimeBO;
 public class Info {
     private Estadio[] estadios;
     private Time[] times;
-    private Campeonato[] campeonatos;
     
     public Info() {
         gerarEstadios();
         gerarTimes();
-        gerarCampeonatos();
     }
     
     public Info(String str) {
@@ -61,31 +59,5 @@ public class Info {
         }
         
         return 0;
-    }
-    
-    private Time[] getTimesCampeonato(String nome) {
-        if (nome.equals("Copa do Brasil")) {
-            Time[] times = {
-                this.times[getNumTime("Flamengo")],
-                this.times[getNumTime("Fluminense")],
-                this.times[getNumTime("São Paulo")],
-                this.times[getNumTime("Palmeiras")]
-            };
-            
-            return times;
-        }
-       return times; 
-    }
-    
-    private void gerarCampeonatos() {
-        Campeonato[] campeonatos = {
-            new Campeonato("Copa do Brasil", getTimesCampeonato("Copa do Brasil"))
-        };
-        
-        this.campeonatos = campeonatos;
-    }
-    
-    public Campeonato[] getCampeonatos() {
-        return this.campeonatos;
     }
 }

@@ -25,27 +25,21 @@ public class ConfrontoDAO extends BaseDAOImp<Confronto> {
             
             dec.executeUpdate();
             
-            query = "INSERT INTO Confronto(id, id_fase, id_jogo_a, id_jogo_b, estadio_jogo_a, estadio_jogo_b, data_jogo_a, data_jogo_b, hora_jogo_a, hora_jogo_b) VALUES (?, ?, ?, ?, ?, ?, CAST(? AS DATE), CAST(? AS DATE), CAST(? AS TIME), CAST(? AS TIME))";
+            query = "INSERT INTO Confronto(id, id_fase, tipo, id_time_a, id_time_b, id_jogo_a, id_jogo_b, estadio_jogo_a, estadio_jogo_b, data_jogo_a, data_jogo_b, hora_jogo_a, hora_jogo_b) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CAST(? AS DATE), CAST(? AS DATE), CAST(? AS TIME), CAST(? AS TIME))";
             dec = connection.prepareStatement(query);
             dec.setInt(1, cft.getID());
             dec.setInt(2, cft.getIDFase());
-            dec.setInt(3, cft.getJogoA().getNumConfronto());
-            dec.setString(5, cft.getJogoA().getEstadio().getNome());
-            dec.setString(7, cft.getJogoA().getData().getData());
-            dec.setString(9, cft.getJogoA().getData().getHora());
-            
-            if (cft.getJogoB() != null) { // caso jogo de volta ainda não exista, selecionada id como 0.
-                dec.setInt(4, cft.getJogoB().getNumConfronto());
-                dec.setString(6, cft.getJogoB().getEstadio().getNome());
-                dec.setString(8, cft.getJogoB().getData().getData());
-                dec.setString(10, cft.getJogoB().getData().getHora());
-            }
-            else {
-                dec.setInt(4, -377);
-                dec.setString(6, "N/A");
-                dec.setString(8, "1-1-1000");
-                dec.setString(10, "00:00");
-            }
+            dec.setString(3, cft.getTipo());
+            dec.setInt(4, cft.getIDTimeA());
+            dec.setInt(5, cft.getIDTimeB());
+            dec.setInt(6, cft.getIDJogoA());
+            dec.setInt(7, cft.getIDJogoB());
+            dec.setInt(8, cft.getIDEstadioA());
+            dec.setInt(9, cft.getIDEstadioB());
+            dec.setString(10, cft.getDataA().getData());
+            dec.setString(11, cft.getDataB().getData());
+            dec.setString(12, cft.getDataA().getHora());
+            dec.setString(13, cft.getDataB().getHora());
             
             dec.executeUpdate();
             
@@ -65,28 +59,31 @@ public class ConfrontoDAO extends BaseDAOImp<Confronto> {
             
             int i = 0;
             while (resultSet.next()) {
-                confrontos[i] = new Confronto();
+                
+                int idTimeA = resultSet.getInt("id_time_a");
+                int idTimeB = resultSet.getInt("id_time_b");
+                int idEstadioA = resultSet.getInt("estadio_jogo_a");
+                int idEstadioB = resultSet.getInt("estadio_jogo_b");
+                
+                java.sql.Date nData = resultSet.getDate("data_jogo_a");
+                java.sql.Time nHora = resultSet.getTime("hora_jogo_a");
+                Data dataA = new Data(nData, nHora);
+                
+                nData = resultSet.getDate("data_jogo_b");
+                nHora = resultSet.getTime("hora_jogo_b");
+                Data dataB = new Data(nData, nHora);
+                
+                confrontos[i] = new Confronto(idTimeA, idTimeB, dataA, dataB, idEstadioA, idEstadioB);
                 
                 int id = resultSet.getInt("id");
                 int idFase = resultSet.getInt("id_fase");
-                int idJogoA = resultSet.getInt("id_jogo_a");
-                int idJogoB = resultSet.getInt("id_jogo_b");
-                
                 confrontos[i].setID(id);
                 confrontos[i].setIDFase(idFase);
+                
+                int idJogoA = resultSet.getInt("id_jogo_a");
+                int idJogoB = resultSet.getInt("id_jogo_b");
                 confrontos[i].setIDJogoA(idJogoA);
                 confrontos[i].setIDJogoB(idJogoB);
-                
-                int estadioA = resultSet.getInt("estadio_jogo_a");
-                int estadioB = resultSet.getInt("estadio_jogo_b");
-                
-                confrontos[i].setNumEstadioA(estadioA);
-                confrontos[i].setNumEstadioB(estadioB);
-                
-                System.out.println(confrontos[i].getIDJogoB());
-                
-                System.exit(0);
-                
                 
                 i++;
             }

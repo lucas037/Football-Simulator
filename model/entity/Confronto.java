@@ -1,8 +1,8 @@
 package model.entity;
 
 public class Confronto {
-    private int id = -377;
-    private int idFase = -377;
+    private int id = -1;
+    private int idFase = -1;
     private String tipo = "Jogo Único";
     private int idJogoA = -1;
     private int idJogoB = -1;
