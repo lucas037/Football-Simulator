@@ -144,6 +144,14 @@ public class Jogo {
         this.placarB = b;
     }
     
+    public int getAgregadoA() {
+        return this.agregadoA;
+    }
+    
+    public int getAgregadoB() {
+        return this.agregadoB;
+    }
+    
     public void setAgregado(int a, int b) {
         this.agregadoA = a;
         this.agregadoB = b;

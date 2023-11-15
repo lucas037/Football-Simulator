@@ -5,11 +5,17 @@ import model.dao.JogoDAO;
 
 public class JogoBO implements BaseBO<Jogo> {
     public void salvar(Jogo[] jgs, int tamanho) {
+        limpar();
         JogoDAO jgDAO = new JogoDAO();
         for (int i = 0; i < tamanho; i++) {
             jgDAO.salvar(jgs[i]);
             
         }
+    }
+    
+    public void limpar() {
+        JogoDAO jgDAO = new JogoDAO();
+        jgDAO.limpar();
     }
     
     @Override

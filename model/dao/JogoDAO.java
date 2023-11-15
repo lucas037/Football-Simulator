@@ -12,6 +12,20 @@ import model.bo.EstadioBO;
 import model.entity.Jogo;
 
 public class JogoDAO extends BaseDAOImp<Jogo> {
+    public void limpar() {
+        try {
+            Connection connection = BaseDAOImp.getConnection();
+            
+            String query = "DELETE FROM Jogo;";
+            PreparedStatement dec = connection.prepareStatement(query);
+            dec.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
     public void salvar(Jogo jg) {
         try {
             Connection connection = BaseDAOImp.getConnection();
@@ -22,7 +36,7 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
             
             dec.executeUpdate();
             
-            query = "INSERT INTO Jogo(id, timea, timeb, data, hora, estadio, progresso, tempo, tempoacres, tempo_intervalo, placar_a, placar_b, agregado, jogo_agregado, id_confronto) VALUES (?, ?, ?, CAST(? AS DATE), CAST(? AS TIME), ?, ?, ?, ?,?, ?, ?, ?, ?, ?)";
+            query = "INSERT INTO Jogo(id, timea, timeb, data, hora, estadio, progresso, tempo, tempoacres, tempo_intervalo, placar_a, placar_b, agregado, jogo_agregado, id_confronto, agregado_a, agregado_b) VALUES (?, ?, ?, CAST(? AS DATE), CAST(? AS TIME), ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?)";
             dec = connection.prepareStatement(query);
             dec.setInt(1, jg.getNumJogo());
             dec.setString(2, jg.getTimeA().getNome());
@@ -39,6 +53,8 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
             dec.setBoolean(13, jg.getTipoConfronto());
             dec.setInt(14, jg.getJogoAgregado());
             dec.setInt(15, jg.getNumConfronto());
+            dec.setInt(16, jg.getAgregadoA());
+            dec.setInt(17, jg.getAgregadoB());
             
             dec.executeUpdate();
             
