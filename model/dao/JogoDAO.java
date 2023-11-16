@@ -3,7 +3,6 @@ package model.dao;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import model.entity.Jogo;
 import model.entity.Data;
 import model.entity.Time;
 import model.bo.TimeBO;
