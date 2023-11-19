@@ -1,5 +1,7 @@
 package model.entity;
 
+import model.bo.TimeBO;
+
 public class GrupoDesempenho {
     private int idTime;
     private int pontos;
@@ -119,6 +121,10 @@ public class GrupoDesempenho {
     
     @Override
     public String toString() {
+        TimeBO tmBO = new TimeBO();
+        Time time = tmBO.obter(idTime);
+        String nomeTime = time.getNome();
+        
         String str = "";
         
         str += jogos+"\t";
@@ -129,7 +135,8 @@ public class GrupoDesempenho {
         str += golsSofridos+"\t\t";
         str += saldoGols+"\t\t";
         str += String.format("%.2f", aproveitamento)+"%\t\t";
-        str += pontos+"\n";
+        str += pontos+"\t\t";
+        str += nomeTime+"\n";
         
         return str;
     }

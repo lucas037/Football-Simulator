@@ -82,7 +82,8 @@ public class Grupo {
         str += "Gols Sof.\t";
         str += "Sald. Gols\t";
         str += "Aprov. (%)\t";
-        str += "Pontos\n";
+        str += "Pontos\t\t";
+        str += "Time\n";
         
         for (int i = 0; i < desempenhoTimes.length; i++) {
             str += desempenhoTimes[i].toString();
