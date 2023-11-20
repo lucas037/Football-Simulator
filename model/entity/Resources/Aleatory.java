@@ -16,14 +16,14 @@ public class Aleatory {
     }
     
     public int[] shuffle(int[] lista) {
-        int indiceAletoario = 0;
+        int indiceAleatorio = 0;
         int valorArmazenado = 0;
         for (int i = 0; i < lista.length; i++) {
-             indiceAletoario = randrange(lista.length);
-             valorArmazenado = lista[indiceAletoario];
-             
-             lista[indiceAletoario] = lista[i];
-             lista[i] = valorArmazenado;
+            indiceAleatorio = randrange(lista.length);
+            valorArmazenado = lista[indiceAleatorio];
+
+            lista[indiceAleatorio] = lista[i];
+            lista[i] = valorArmazenado;
         }
         
         return lista;
