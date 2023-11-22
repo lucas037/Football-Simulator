@@ -1,6 +1,7 @@
 package model.entity;
 
 import model.entity.Resources.Aleatory;
+import model.entity.Resources.Gerador;
 
 public class Grupo {
     private int id = -1;
@@ -9,7 +10,11 @@ public class Grupo {
     private String modelo = "Versus";
     private String enfrentamento = "Casa e Fora";
     private GrupoDesempenho[] desempenhoTimes;
+    private int numRodadas;
+    private int numJogosRodada;
     private int[][] idPartidas;
+    
+    private int[][][] idTimesPartidas;
     
     public Grupo(int[] idClubes) {
         this.idClubes = idClubes;
@@ -113,7 +118,11 @@ public class Grupo {
         int numRodadasTurno = 0;
         int numRodadas = 0;
         int numJogosRodada = 0;
-        int[] idClubesSort = random.shuffle(idClubes);
+        int[] indicesSorteio = new int[idClubes.length];
+        
+        for (int i = 0; i < indicesSorteio.length; i++) {
+            indicesSorteio[i] = i;
+        }
         
         if (modelo.equals("Champions League")) {}
         
@@ -123,7 +132,7 @@ public class Grupo {
                 numJogosRodada = idClubes.length/2;
             }
             else {
-                idClubesSort = aumentarTamanho(idClubesSort);
+                indicesSorteio = aumentarTamanho(indicesSorteio);
                 numRodadas = idClubes.length;
                 numJogosRodada = idClubes.length/2;
             }
@@ -134,18 +143,21 @@ public class Grupo {
             }
         }
         
+        this.numRodadas = numRodadas;
+        this.numJogosRodada = numJogosRodada;
+        
         idPartidas = new int[numRodadas][numJogosRodada];
-        int[][][] idClubesPartidas = new int[numRodadas][numJogosRodada][2];
+        int[][][] indiceClubesPartida = new int[numRodadas][numJogosRodada][2];
         
         // gera poteA e poteB (poteA sempre 1 unidade maior que B.
-        int[] poteA = new int[idClubesSort.length/2];
-        int[] poteB = new int[idClubesSort.length/2];
+        int[] poteA = new int[indicesSorteio.length/2];
+        int[] poteB = new int[indicesSorteio.length/2];
         
         // organiza primeiros valores da lista no pote A.
-        System.arraycopy(idClubesSort, 0, poteA, 0, poteA.length);
+        System.arraycopy(indicesSorteio, 0, poteA, 0, poteA.length);
         
         // organiza ultimos valores da lista no pote B.
-        System.arraycopy(idClubesSort, poteA.length, poteB, 0, poteB.length);
+        System.arraycopy(indicesSorteio, poteA.length, poteB, 0, poteB.length);
         
         // coleta de id dos times em cada jogos em cada rodada.
         for (int i = 0; i < numRodadasTurno; i++) {
@@ -154,8 +166,8 @@ public class Grupo {
                 inicial = 1;
             
             for (int j = inicial; j < numJogosRodada + inicial; j++) {
-                idClubesPartidas[i][j - inicial][0] = poteA[j];
-                idClubesPartidas[i][j - inicial][1] = poteB[j];
+                indiceClubesPartida[i][j - inicial][0] = poteA[j];
+                indiceClubesPartida[i][j - inicial][1] = poteB[j];
             }
             
             // "giro" clubes para próxima rodada
@@ -171,17 +183,95 @@ public class Grupo {
             poteB[poteB.length - 1] = valorArmazenado;
         }
         
-        for (int i = 0; i < idClubesPartidas.length; i++) {
-            System.out.println("\n- Rodada "+(i+1)+" - ");
-            for (int j = 0; j < idClubesPartidas[0].length; j++) {
-                System.out.println(idClubesPartidas[i][j][0]+" v "+idClubesPartidas[i][j][1]);
-            }
-            System.out.println("\n");
+        // troca ordem de rodadas
+        int[][][] copiaIndiceClubesPartida = new int[indiceClubesPartida.length][indiceClubesPartida[0].length][2];
+        
+        int[] indices = new int[numRodadasTurno];
+        for (int i = 0; i < indices.length; i++)
+            indices[i] = i;
+        
+        indices = random.shuffle(indices);
+        
+        for (int i = 0; i < indices.length; i++) {
+            copiaIndiceClubesPartida[i] = indiceClubesPartida[indices[i]];
         }
         
-        System.exit(0);
-        System.out.println(idPartidas.length);
-        System.exit(0);
+        indiceClubesPartida = copiaIndiceClubesPartida;
+        
+        
+        // organiza mandos de campo no grupo
+        int[][] mandosCampo = new int[idClubes.length][2]; // jogos seguidos fora / total jogos fora
+        
+        int rodadasSemRepeticao = indiceClubesPartida.length;
+        if (enfrentamento.equals("Casa e Fora"))
+            rodadasSemRepeticao /= 2;
+        
+        for (int i = 0; i < rodadasSemRepeticao; i++) {
+            for (int j = 0; j < indiceClubesPartida[0].length; j++) {
+                int indiceCasa = indiceClubesPartida[i][j][0];
+                int indiceFora = indiceClubesPartida[i][j][1];
+                
+                // caso o timeB tenha mais jogos seguidos fora do que o timeA, ele jogará em casa.
+                boolean timeB_maisJogosSeguidosFora = mandosCampo[indiceFora][0] > mandosCampo[indiceCasa][0];
+                boolean igualdadeJogosSeguidoresFora = mandosCampo[indiceFora][0] == mandosCampo[indiceCasa][0];
+                boolean timeB_maisJogosFora = mandosCampo[indiceFora][1] > mandosCampo[indiceCasa][1];
+                if (timeB_maisJogosSeguidosFora || (igualdadeJogosSeguidoresFora && timeB_maisJogosFora)) {
+                    indiceClubesPartida[i][j][0] = indiceFora;
+                    indiceClubesPartida[i][j][1] = indiceCasa;
+                    indiceCasa = indiceClubesPartida[i][j][0];
+                    indiceFora = indiceClubesPartida[i][j][1];
+                }
+                
+                mandosCampo[indiceCasa][0] = 0;
+                mandosCampo[indiceFora][0]++;
+                mandosCampo[indiceFora][1]++;
+            }
+        }
+        
+        // organiza segundo turno, caso exista
+        if (enfrentamento.equals("Casa e Fora")) {
+            if (modelo.equals("Versus")) {
+                for (int i = 0; i < rodadasSemRepeticao; i++) {
+                    for (int j = 0; j < indiceClubesPartida[0].length; j++) {
+                        indiceClubesPartida[i+rodadasSemRepeticao][j][0] = indiceClubesPartida[i][j][1];
+                        indiceClubesPartida[i+rodadasSemRepeticao][j][1] = indiceClubesPartida[i][j][0];
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < rodadasSemRepeticao; i++) {
+                    for (int j = 0; j < indiceClubesPartida[0].length; j++) {
+                        indiceClubesPartida[i+rodadasSemRepeticao][j][0] = indiceClubesPartida[numRodadasTurno - i - 1][j][1];
+                        indiceClubesPartida[i+rodadasSemRepeticao][j][1] = indiceClubesPartida[numRodadasTurno - i - 1][j][0];
+                    }
+                }
+            }
+        }
+        
+        //aleatoriza ordem dos jogos em cada rodada
+        Gerador gerador = new Gerador();
+        indices = gerador.gerarIndices(numJogosRodada);
+
+        for (int i = 0; i < numRodadas; i++) {
+            indices = random.shuffle(indices);
+
+            int[][] copiaRodada = new int[numJogosRodada][2];
+            
+            for (int j = 0; j < numJogosRodada; j++) {
+                copiaRodada[j] = indiceClubesPartida[i][indices[j]];
+            }
+            
+            indiceClubesPartida[i] = copiaRodada;
+        }
+        
+        // organiza id de times por partida
+        this.idTimesPartidas = new int[numRodadas][numJogosRodada][2];
+        for (int i = 0; i < numRodadas; i++) {
+            for (int j = 0; j < numJogosRodada; j++) {
+                idTimesPartidas[i][j][0] = idClubes[indiceClubesPartida[i][j][0]];
+                idTimesPartidas[i][j][1] = idClubes[indiceClubesPartida[i][j][1]];
+            }
+        }
     }
     
     @Override
@@ -198,6 +288,9 @@ public class Grupo {
         str += "Aprov. (%)\t";
         str += "Pontos\t\t";
         str += "Time\n";
+
+        for (int i = 0; i < desempenhoTimes.length; i++)
+            str += desempenhoTimes[i].toString();
         
         return str;
     }

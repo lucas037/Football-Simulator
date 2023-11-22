@@ -12,16 +12,15 @@ public class Main {
         
         Aleatory al = new Aleatory();
         
-        int[] times = {1, 4, 5, 19, 12, 2, 3, 6, 7, 8};
-        Grupo grupo = new Grupo(times);
-        
-        System.out.println(grupo.toString());
-        
-        System.exit(0);
-        
         Tempo tmp = new Tempo(29, 1, 2024, 0, 0);
         
         tmp.gerar();
+        
+        int[] times = {1, 4, 5, 18, 7, 2, 9};
+        Grupo grupo = new Grupo(times);
+        //tmp.addGrupo(grupo);
+        
+        System.exit(0);
         
         Info inf = new Info();
         
