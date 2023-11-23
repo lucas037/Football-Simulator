@@ -7,11 +7,13 @@ public class Grupo {
     private int id = -1;
     private int idFase = -1;
     private int[] idClubes;
+    private String status = "Em Breve";
     private String modelo = "Versus";
     private String enfrentamento = "Casa e Fora";
     private GrupoDesempenho[] desempenhoTimes;
     private int numRodadas;
     private int numJogosRodada;
+    private int jogosEncerrados = 0;
     private int[][] idPartidas;
     
     private int[][][] idTimesPartidas;
@@ -69,6 +71,14 @@ public class Grupo {
         this.idClubes = idClubes;
     }
     
+    public String getStatus() {
+        return this.status;
+    }
+    
+    public void setStatus(String modelo) {
+        this.modelo = status;
+    }
+    
     public String getModelo() {
         return this.modelo;
     }
@@ -91,6 +101,10 @@ public class Grupo {
     
     public void setDesempenhoTimes(GrupoDesempenho[] desempenhoTimes) {
         this.desempenhoTimes = desempenhoTimes;
+    }
+    
+    public int[][][] getidTimesPartidas() {
+        return this.idTimesPartidas;
     }
     
     private void gerarDesempenho(int[] idClubes) {
@@ -274,9 +288,41 @@ public class Grupo {
         }
     }
     
+    public void addJogo(Jogo jg) {
+        int idA = jg.getTimeA().getID();
+        int idB = jg.getTimeB().getID();
+        
+        int indiceA = -1;
+        int indiceB = -1;
+        
+        for (int i = 0; i < idClubes.length; i++) {
+            if (idClubes[i] == idA)
+                indiceA = i;
+            else if (idClubes[i] == idB)
+                indiceB = i;
+        }
+        
+        int placarA = jg.getPlacarA();
+        int placarB = jg.getPlacarB();
+        
+        desempenhoTimes[indiceA].addResultado(placarA, placarB);
+        desempenhoTimes[indiceB].addResultado(placarB, placarA);
+        
+        jogosEncerrados++;
+        
+        if (status.equals("Em Breve")) {
+            status = "Em Andamento";
+        }
+        else if (jogosEncerrados == (numRodadas*numJogosRodada)) {
+            status = "Finalizado";
+        }
+    }
+    
     @Override
     public String toString() {
         String str = "";
+        
+        str += "Grupo "+id+": \n";
         
         str += "Jog\t";
         str += "Vit\t";
@@ -291,6 +337,8 @@ public class Grupo {
 
         for (int i = 0; i < desempenhoTimes.length; i++)
             str += desempenhoTimes[i].toString();
+        
+        str += "\nStatus: "+status+"\n"; 
         
         return str;
     }

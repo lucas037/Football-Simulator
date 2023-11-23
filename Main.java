@@ -3,6 +3,7 @@ import model.entity.Tempo;
 import model.entity.Info;
 
 import model.entity.Resources.Aleatory;
+import model.entity.Resources.Gerador;
 import model.entity.Grupo;
 
 
@@ -16,13 +17,13 @@ public class Main {
         
         tmp.gerar();
         
-        int[] times = {1, 4, 5, 18, 7, 2, 9};
+        Gerador gr = new Gerador();
+        int[] indices = gr.gerarIndices(21);
+        indices = al.shuffle(indices);
+        
+        int[] times = {indices[0], indices[1], indices[2], indices[3], indices[4]};
         Grupo grupo = new Grupo(times);
-        //tmp.addGrupo(grupo);
-        
-        System.exit(0);
-        
-        Info inf = new Info();
+        tmp.addGrupo(grupo);
         
         for (int i = 0; i < 25; i++) {
             tmp.passarDia();
@@ -32,7 +33,8 @@ public class Main {
             
         }
         
-        tmp.salvar();
+        tmp.exibirGrupos();
+        //tmp.salvar();
         
         System.exit(0);
         

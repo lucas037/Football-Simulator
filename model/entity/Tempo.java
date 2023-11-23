@@ -15,6 +15,9 @@ public class Tempo extends Data {
     private Confronto[] confrontos = new Confronto[100];
     private int numeroConfrontos = 0;
     private int limiteConfrontos = 100;
+    private Grupo[] grupos = new Grupo[100];
+    private int numeroGrupos = 0;
+    private int limiteGrupos = 100;
             
     public Tempo() {
         super(); // invoca o construtor da classe pai "Data"
@@ -111,6 +114,7 @@ public class Tempo extends Data {
             else if (jogosHoje[i].getFaseJogo().equals("Finalizado")) {
                 int numJogo = jogosHoje[i].getNumJogo();
                 int numConfronto = jogos[numJogo].getNumConfronto();
+                int numGrupo = jogos[numJogo].getNumGrupo();
                 
                 System.out.println(jogos[numJogo].toString());
                 
@@ -126,6 +130,18 @@ public class Tempo extends Data {
                         System.out.println("Classificado Confronto "+numConfronto+": "+jogos[idJogoB].getClassificado().getNome());
                     }
                 }
+                
+                else if (numGrupo >= 0) {
+                    grupos[numGrupo].addJogo(jogos[numJogo]);
+                    
+                    System.out.println(grupos[numGrupo].toString());
+                    
+                    if (grupos[numGrupo].getStatus().equals("Finalizado")) {
+                        System.out.println("Grupo Finalizado");
+                        System.exit(0);
+                    }
+                }
+                
                 
                 
                 jogosHoje[i].encerrarJogo();
@@ -240,7 +256,7 @@ public class Tempo extends Data {
             numeroConfrontos++;
         }
         else {
-            Confronto[] novoVetorConfrontos = new Confronto[limiteJogos*2];
+            Confronto[] novoVetorConfrontos = new Confronto[limiteConfrontos*2];
             
             for (int i = 0; i < limiteConfrontos; i++) {
                 novoVetorConfrontos[i] = confrontos[i];
@@ -254,6 +270,56 @@ public class Tempo extends Data {
             System.out.println("Tamanho do Vetor Confrontos Aumentou");
             
             addConfronto(confronto);
+        }
+    }
+    
+    public void addGrupo(Grupo grupo) {
+        if (numeroGrupos < limiteGrupos) {
+            TimeBO tmBO = new TimeBO();
+            
+            grupos[numeroGrupos] = grupo;
+            grupos[numeroGrupos].setID(numeroGrupos);
+            
+            int[][][] idTimesPartida = grupo.getidTimesPartidas();
+            int[][] idPartidas = new int[idTimesPartida.length][idTimesPartida[0].length];
+            
+            int dia = 1;
+            
+            for (int i = 0; i < idTimesPartida.length; i++) {
+                for (int j = 0; j < idTimesPartida[i].length; j++) {
+                    int idA = idTimesPartida[i][j][0];
+                    int idB = idTimesPartida[i][j][1];
+                    
+                    Time timeA = tmBO.obter(idA);
+                    Time timeB = tmBO.obter(idB);
+                    
+                    Jogo jg = new Jogo(timeA, timeB, new Data(dia, 2, 2024, 0, 0));
+                    dia++;
+                    
+                    addJogo(jg);
+                    jogos[numeroJogos-1].setNumGrupo(numeroGrupos);
+                    idPartidas[i][j] = numeroJogos-1;
+                }
+            }
+            numeroGrupos++;
+        
+            System.out.println(grupos[numeroGrupos-1].toString());
+        }
+        else {
+            Grupo[] novoVetorGrupos = new Grupo[limiteGrupos*2];
+            
+            for (int i = 0; i < limiteGrupos; i++) {
+                novoVetorGrupos[i] = grupos[i];
+                novoVetorGrupos[i].toString();
+            }
+            
+            grupos = novoVetorGrupos;
+            
+            limiteGrupos = limiteGrupos * 2;
+            
+            System.out.println("Tamanho do Vetor Grupos Aumentou");
+            
+            addGrupo(grupo);
         }
     }
     
@@ -272,6 +338,12 @@ public class Tempo extends Data {
     public void exibirConfrontos() {
         for (int i = 0; i < numeroConfrontos; i++) {
             System.out.print(confrontos[i].toString());
+        }
+    }
+    
+    public void exibirGrupos() {
+        for (int i = 0; i < numeroGrupos; i++) {
+            System.out.print(grupos[i].toString());
         }
     }
     

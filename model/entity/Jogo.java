@@ -5,6 +5,7 @@ import java.util.Random;
 public class Jogo {
     private int numJogo = -377;
     private int numConfronto = -377;
+    private int numGrupo = -377;
     private final Time timeA;
     private final Time timeB;
     private int tempo = 0;
@@ -188,6 +189,14 @@ public class Jogo {
     
     public void setNumConfronto(int num) {
         this.numConfronto = num;
+    }
+    
+    public int getNumGrupo() {
+        return this.numGrupo;
+    }
+    
+    public void setNumGrupo(int num) {
+        this.numGrupo = num;
     }
     
     public void encerrarJogo() {
@@ -553,7 +562,8 @@ public class Jogo {
         }
         
         str += "Num Jogo: "+numJogo+"\n";
-        str += "Num Confronto: "+numConfronto+"\n\n";
+        str += "Num Confronto: "+numConfronto+"\n";
+        str += "Num Grupo: "+numGrupo+"\n\n";
         
         return str;
     }
