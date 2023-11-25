@@ -15,17 +15,24 @@ public class Main {
         
         Tempo tmp = new Tempo(29, 1, 2024, 0, 0);
         
-        tmp.gerar();
+        //tmp.gerar();
         
         Gerador gr = new Gerador();
+        
         int[] indices = gr.gerarIndices(21);
         indices = al.shuffle(indices);
-        
-        int[] times = {indices[0], indices[1], indices[2], indices[3], indices[4]};
+        int[] times = {indices[0], indices[1], indices[2], indices[3]};
         Grupo grupo = new Grupo(times);
         tmp.addGrupo(grupo);
         
-        for (int i = 0; i < 25; i++) {
+        int[] timesB = {indices[4], indices[5], indices[6], indices[7], indices[8]};
+        Grupo grupoB = new Grupo(timesB);
+        tmp.addGrupo(grupoB);
+        
+        tmp.salvar();
+        System.exit(0);
+        
+        for (int i = 0; i < 30; i++) {
             tmp.passarDia();
             
             System.out.println("");
@@ -33,8 +40,10 @@ public class Main {
             
         }
         
+        tmp.salvar();
+        
         tmp.exibirGrupos();
-        //tmp.salvar();
+        tmp.exibirJogos();
         
         System.exit(0);
         

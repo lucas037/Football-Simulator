@@ -2,6 +2,7 @@ package model.entity;
 
 import model.bo.JogoBO;
 import model.bo.ConfrontoBO;
+import model.bo.GrupoBO;
 import model.bo.TimeBO;
 import model.bo.EstadioBO;
 
@@ -41,6 +42,9 @@ public class Tempo extends Data {
         
         ConfrontoBO cftBO = new ConfrontoBO();
         cftBO.salvar(confrontos, numeroConfrontos);
+        
+        GrupoBO gpBO = new GrupoBO();
+        gpBO.salvar(grupos, numeroGrupos);
     }
     
     public void gerar() {
@@ -134,11 +138,8 @@ public class Tempo extends Data {
                 else if (numGrupo >= 0) {
                     grupos[numGrupo].addJogo(jogos[numJogo]);
                     
-                    System.out.println(grupos[numGrupo].toString());
-                    
                     if (grupos[numGrupo].getStatus().equals("Finalizado")) {
                         System.out.println("Grupo Finalizado");
-                        System.exit(0);
                     }
                 }
                 
@@ -301,9 +302,9 @@ public class Tempo extends Data {
                     idPartidas[i][j] = numeroJogos-1;
                 }
             }
+            grupo.setIDPartidas(idPartidas);
             numeroGrupos++;
         
-            System.out.println(grupos[numeroGrupos-1].toString());
         }
         else {
             Grupo[] novoVetorGrupos = new Grupo[limiteGrupos*2];

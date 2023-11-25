@@ -6,9 +6,10 @@ import model.dao.ConfrontoDAO;
 public class ConfrontoBO implements BaseBO<Confronto> {
     public void salvar(Confronto[] cft, int tamanho) {
         ConfrontoDAO cftDAO = new ConfrontoDAO();
+        cftDAO.limpar();
+        
         for (int i = 0; i < tamanho; i++) {
             cftDAO.salvar(cft[i]);
-            
         }
     }
     

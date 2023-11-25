@@ -71,6 +71,14 @@ public class Grupo {
         this.idClubes = idClubes;
     }
     
+    public int[][] getIDPartidas() {
+        return this.idPartidas;
+    }
+    
+    public void setIDPartidas(int[][] idPartidas) {
+        this.idPartidas = idPartidas;
+    }
+    
     public String getStatus() {
         return this.status;
     }
@@ -97,6 +105,30 @@ public class Grupo {
     
     public GrupoDesempenho[] getDesempenhoTimes() {
         return this.desempenhoTimes;
+    }
+    
+    public void setNumRodadas(int num) {
+        this.numRodadas = num;
+    }
+    
+    public int getNumRodadas() {
+        return this.numRodadas;
+    }
+    
+    public void setNumJogosRodada(int num) {
+        this.numJogosRodada = num;
+    }
+    
+    public int getNumJogosRodada() {
+        return this.numJogosRodada;
+    }
+    
+    public void setNumJogosEncerrados(int num) {
+        this.jogosEncerrados = num;
+    }
+    
+    public int getNumJogosEncerrados() {
+        return this.jogosEncerrados;
     }
     
     public void setDesempenhoTimes(GrupoDesempenho[] desempenhoTimes) {
@@ -338,7 +370,7 @@ public class Grupo {
         for (int i = 0; i < desempenhoTimes.length; i++)
             str += desempenhoTimes[i].toString();
         
-        str += "\nStatus: "+status+"\n"; 
+        str += "Status: "+status+"\n\n"; 
         
         return str;
     }

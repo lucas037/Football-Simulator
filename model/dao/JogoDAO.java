@@ -35,7 +35,7 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
             
             dec.executeUpdate();
             
-            query = "INSERT INTO Jogo(id, timea, timeb, data, hora, estadio, progresso, tempo, tempoacres, tempo_intervalo, placar_a, placar_b, agregado, jogo_agregado, id_confronto, agregado_a, agregado_b) VALUES (?, ?, ?, CAST(? AS DATE), CAST(? AS TIME), ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?)";
+            query = "INSERT INTO Jogo(id, timea, timeb, data, hora, estadio, progresso, tempo, tempoacres, tempo_intervalo, placar_a, placar_b, agregado, jogo_agregado, id_confronto, id_grupo, agregado_a, agregado_b) VALUES (?, ?, ?, CAST(? AS DATE), CAST(? AS TIME), ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?)";
             dec = connection.prepareStatement(query);
             dec.setInt(1, jg.getNumJogo());
             dec.setString(2, jg.getTimeA().getNome());
@@ -52,8 +52,9 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
             dec.setBoolean(13, jg.getTipoConfronto());
             dec.setInt(14, jg.getJogoAgregado());
             dec.setInt(15, jg.getNumConfronto());
-            dec.setInt(16, jg.getAgregadoA());
-            dec.setInt(17, jg.getAgregadoB());
+            dec.setInt(16, jg.getNumGrupo());
+            dec.setInt(17, jg.getAgregadoA());
+            dec.setInt(18, jg.getAgregadoB());
             
             dec.executeUpdate();
             
@@ -94,6 +95,8 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
                 
                 int idConfronto = resultSet.getInt("id_confronto");
                 jogos[i].setNumConfronto(idConfronto);
+                int idGrupo = resultSet.getInt("id_grupo");
+                jogos[i].setNumGrupo(idGrupo);
                 
                 String progresso = resultSet.getString("progresso");
                 jogos[i].setFaseJogo(progresso);
@@ -159,6 +162,8 @@ public class JogoDAO extends BaseDAOImp<Jogo> {
 
             int idConfronto = resultSet.getInt("id_confronto");
             jogo.setNumConfronto(idConfronto);
+            int idGrupo = resultSet.getInt("id_grupo");
+            jogo.setNumGrupo(idGrupo);
 
             String progresso = resultSet.getString("progresso");
             jogo.setFaseJogo(progresso);

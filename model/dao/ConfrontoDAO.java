@@ -15,6 +15,20 @@ import model.bo.JogoBO;
 import model.entity.Confronto;
 
 public class ConfrontoDAO extends BaseDAOImp<Confronto> {
+    public void limpar() {
+        try {
+            Connection connection = BaseDAOImp.getConnection();
+            
+            String query = "DELETE FROM Confronto;";
+            PreparedStatement dec = connection.prepareStatement(query);
+            dec.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
     public void salvar(Confronto cft) {
         try {
             Connection connection = BaseDAOImp.getConnection();
